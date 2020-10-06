@@ -1,0 +1,32 @@
+type BoxProps = typeof import("./components/Box/types").BoxProps;
+
+declare module "MyTypes" {
+  export type RootState = import("../store/index").RootState;
+
+  export type ModalsState = {
+    textStyle: {
+      location?: {
+        x: number;
+        y: number;
+      };
+      isVisible: boolean;
+      editMode?: boolean;
+      id?: string;
+      name?: string;
+      fontFamily?: string;
+      fontSize?: string;
+      lineHeight?: string;
+      fontWeight?: string;
+      letterSpacing?: string;
+    };
+  };
+
+  export type User = {
+    uid: string;
+    email: string;
+    emailVerified: boolean;
+    name: string;
+    photoURL: string;
+    isPending?: boolean;
+  };
+}
