@@ -6,6 +6,17 @@
     "@chakra-ui/core": "^1.0.0-next.6",
     "@chakra-ui/theme": "^1.0.0-next.6",
     "@chakra-ui/theme-tools": "^1.0.0-next.6",
+    "@hookform/resolvers": "^1.0.0",
+    "@react-aria/focus": "^3.2.2",
+    "@react-aria/interactions": "^3.2.1",
+    "@react-aria/table": "^3.0.0-alpha.7",
+    "@react-aria/utils": "^3.3.0",
+    "@react-aria/virtualizer": "^3.2.0",
+    "@react-stately/data": "^3.1.1",
+    "@react-stately/layout": "^3.1.2",
+    "@react-stately/table": "^3.0.0-alpha.6",
+    "@react-stately/virtualizer": "^3.1.2",
+    "@react-types/table": "^3.0.0-rc.5",
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.9.0",
     "@testing-library/react": "^10.2.1",
@@ -14,16 +25,20 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "focus-visible": "^5.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.9.0",
     "react-icons": "^3.0.0",
     "react-redux": "^7.2.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "typescript": "^3.9.5",
-    "web-vitals": "^0.2.2"
+    "web-vitals": "^0.2.2",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,7 +62,9 @@
     ]
   },
   "devDependencies": {
+    "@react-types/shared": "^3.2.1",
     "@types/react-redux": "^7.1.9",
+    "@types/react-router-dom": "^5.1.5",
     "redux-devtools-extension": "^2.13.8"
   }
 }
