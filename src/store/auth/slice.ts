@@ -1,50 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "MyTypes";
 import { FLUSH } from "store/actionTypes";
+import { login } from "./thunks";
 
 const initialState: User = {
-  isPending: true,
-  uid: null,
-  email: null,
-  emailVerified: null,
-  name: null,
-  photoURL: null,
+  token: null,
 };
 
-const userSlice = createSlice({
-  name: "user",
+const authSlice = createSlice({
+  name: "auth",
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<User>) {
-      const {
-        uid,
-        emailVerified,
-        email,
-        isPending,
-        name,
-        photoURL,
-      } = action.payload;
+      const { token } = action.payload;
 
-      state.isPending = isPending;
-      state.uid = uid;
-      state.email = email;
-      state.emailVerified = emailVerified;
-      state.name = name;
-      state.photoURL = photoURL;
+      state.token = token;
     },
   },
   extraReducers: {
     [FLUSH]: (state) => {
-      state.isPending = false;
-      state.uid = null;
-      state.email = null;
-      state.emailVerified = null;
-      state.name = null;
-      state.photoURL = null;
+      state.token = null;
+    },
+    [login.fulfilled.toString()]: (state, action) => {
+      const { token } = action.payload;
+      state.token = token;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser } = authSlice.actions;
 
-export default userSlice.reducer;
+export default authSlice.reducer;

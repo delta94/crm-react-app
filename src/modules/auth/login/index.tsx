@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormErrorMessage,
   FormLabel,
@@ -13,29 +13,58 @@ import {
   useDisclosure,
   InputRightElement,
   Stack,
+  useToast,
 } from "@chakra-ui/core";
 import schema from "./schema";
 import Logo from "components/Logo";
+import { login } from "store/auth/thunks";
+import { useDispatch, useSelector } from "react-redux";
+import { isAuthenticatedSelector } from "store/auth/selectors";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
-  const { handleSubmit, errors, register } = useForm({
+  const toast = useToast();
+  const { handleSubmit, errors, register } = useForm<{
+    username: string;
+    password: string;
+  }>({
     resolver: yupResolver(schema),
     mode: "onSubmit",
   });
+
   const {
     isOpen: isPasswordShown,
     onToggle: togglePasswordVisibility,
   } = useDisclosure({ defaultIsOpen: false });
+  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isAuth = useSelector(isAuthenticatedSelector);
+  const history = useHistory();
 
-  function onSubmit(values) {
+  const onSubmit = handleSubmit(async ({ username, password }) => {
     setIsSubmitting(true);
+    const res = await dispatch(login({ username, password }));
 
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setIsSubmitting(false);
-    }, 1000);
-  }
+    // @ts-ignore
+    if (res.error) {
+      toast({
+        title: "Unable to login",
+        description: "Please, make sure your credentials are correct",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+    }
+
+    setIsSubmitting(false);
+  });
+
+  useEffect(() => {
+    if (isAuth) {
+      history.push("/");
+    }
+  }, [isAuth]);
 
   return (
     <Flex bg="blue.100" minHeight="100vh">
@@ -43,19 +72,21 @@ const Login = () => {
         <Flex mt={-8} justify="center" direction="column" width="400px">
           <Logo mb={3} />
           <Heading mb={16}>Welcome back</Heading>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={onSubmit}>
             <Stack spacing={3}>
-              <FormControl isRequired={true} isInvalid={Boolean(errors.email)}>
-                <FormLabel htmlFor="email">Email address</FormLabel>
+              <FormControl
+                isRequired={true}
+                isInvalid={Boolean(errors.username)}
+              >
+                <FormLabel htmlFor="username">Username</FormLabel>
                 <Input
                   size="lg"
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="example@example.com"
+                  type="text"
+                  id="username"
+                  name="username"
                   ref={register}
                 />
-                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+                <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
               </FormControl>
 
               <FormControl

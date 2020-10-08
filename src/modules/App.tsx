@@ -8,7 +8,8 @@ import { store, persistor } from "store";
 import { PersistGate } from "redux-persist/integration/react";
 import Login from "./auth/login";
 import Dashboard from "./dashboard";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import PrivateRoute from "components/PrivateRoute";
 
 const newTheme = extendTheme({
   styles: {
@@ -47,8 +48,14 @@ export const App = () => (
     <Router>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          {/* <Login /> */}
-          <Dashboard />
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <PrivateRoute path="/">
+              <Dashboard />
+            </PrivateRoute>
+          </Switch>
         </PersistGate>
       </Provider>
     </Router>

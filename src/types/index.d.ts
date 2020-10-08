@@ -22,11 +22,6 @@ declare module "MyTypes" {
   };
 
   export type User = {
-    uid: string;
-    email: string;
-    emailVerified: boolean;
-    name: string;
-    photoURL: string;
-    isPending?: boolean;
+    token: string;
   };
 }
