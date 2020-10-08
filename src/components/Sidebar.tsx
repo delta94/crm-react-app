@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Icon, Stack } from "@chakra-ui/core";
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
-import { FiUsers } from "react-icons/fi";
+import { FiCreditCard, FiUsers } from "react-icons/fi";
 
 interface NavLinkProps {
   to: string;
@@ -14,7 +14,8 @@ const NavLink: React.FC<NavLinkProps> = (props) => {
       bg={match ? "gray.100" : "transparent"}
       display="flex"
       alignItems="center"
-      p={2}
+      px={2}
+      py="10px"
       borderRadius="6px"
       cursor="pointer"
       fontSize="sm"
@@ -40,13 +41,14 @@ const Sidebar = () => {
     >
       <Stack width="90%">
         {/* @ts-ignore */}
-        <NavLink ex to="/">
+        <NavLink exact to="/">
           <Icon as={FiUsers} boxSize={5} mr={2} />
-          Users
+          Clients
         </NavLink>
-        <NavLink to="/user">hey</NavLink>
-        <NavLink to="/user2">hey</NavLink>
-        <NavLink to="/user3">hey</NavLink>
+        <NavLink to="/payments">
+          <Icon as={FiCreditCard} boxSize={5} mr={2} />
+          Payments
+        </NavLink>
       </Stack>
     </Flex>
   );
