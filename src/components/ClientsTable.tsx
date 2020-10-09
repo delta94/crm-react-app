@@ -42,20 +42,18 @@ const ClientsTable = () => {
 
       return { items: json.clients };
     },
-    // async sort({ items, sortDescriptor }) {
-    //   return {
-    //     items: items.slice().sort((a, b) => {
-    //       let cmp =
-    //         a.data[sortDescriptor.column] < b.data[sortDescriptor.column]
-    //           ? -1
-    //           : 1;
-    //       if (sortDescriptor.direction === "descending") {
-    //         cmp *= -1;
-    //       }
-    //       return cmp;
-    //     }),
-    //   };
-    // },
+    async sort({ items, sortDescriptor }) {
+      return {
+        items: items.slice().sort((a, b) => {
+          let cmp =
+            a[sortDescriptor.column] < b[sortDescriptor.column] ? -1 : 1;
+          if (sortDescriptor.direction === "descending") {
+            cmp *= -1;
+          }
+          return cmp;
+        }),
+      };
+    },
   });
 
   return (
@@ -66,25 +64,25 @@ const ClientsTable = () => {
       height={400}
       sortDescriptor={list.sortDescriptor}
       onSortChange={list.sort}
-      // ref={tableRef}
+      ref={tableRef}
     >
       <TableHeader>
-        <Column key="fullname" allowsSorting={false}>
+        <Column key="fullname" allowsSorting={true}>
           Name
         </Column>
-        <Column key="login" width={140} allowsSorting={false}>
+        <Column key="login" width={140} allowsSorting={true}>
           Login
         </Column>
-        <Column key="dateofbirth" width={140} isRowHeader allowsSorting={false}>
+        <Column key="dateofbirth" width={140} isRowHeader allowsSorting={true}>
           Date of birth
         </Column>
-        <Column key="mobilephone" width={140} allowsSorting={false}>
+        <Column key="mobilephone" width={140} allowsSorting={true}>
           Phone number
         </Column>
-        <Column key="inn" width={150} allowsSorting={false}>
+        <Column key="inn" width={150} allowsSorting={true}>
           INN
         </Column>
-        <Column key="passnumber" width={150} allowsSorting={false}>
+        <Column key="passnumber" width={150} allowsSorting={true}>
           Passport number
         </Column>
       </TableHeader>

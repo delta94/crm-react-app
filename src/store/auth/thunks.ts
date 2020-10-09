@@ -25,7 +25,7 @@ export const login = createAsyncThunk<
   // const res = {status:200}
   // if(res.status===401) {
   // }
-  throw Error("Unauthorized");
+  // throw Error("Unauthorized");
   return {
     token:
       "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYwMTk4MTU1MSwiaWF0IjoxNjAxOTYzNTUxfQ.rpJmPeMbezCW9NsC9mvAJ9B76kK6VxoDy8T3JuzDtpfCNypWHAbmbB9I8gMNT7Xl1uIR_IyeAHE-qIMYuBze8Q",
