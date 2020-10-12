@@ -1,4 +1,4 @@
-import { Box, Tag, Text } from "@chakra-ui/core";
+import { Box, Button, Tag, Text } from "@chakra-ui/core";
 import { useAsyncList } from "@react-stately/data";
 import { Cell, Row, TableBody, TableHeader } from "@react-stately/table";
 import SectionHeading from "components/SectionHeading";
@@ -110,6 +110,9 @@ const Payments = () => {
     <Box>
       <SectionHeading mb={10}>Payments</SectionHeading>
       <PaymentsTable />
+      <Button w="200px" colorScheme="blue" mt={8} ml="auto">
+        Confirm
+      </Button>
     </Box>
   );
 };

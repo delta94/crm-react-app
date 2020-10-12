@@ -23,10 +23,16 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Flex height="100vh">
+    <Flex>
       <Sidebar />
-      <Flex justify="center" flex={1} bg="gray.100" overflow="auto">
-        <Box width="90%" maxW="1060px" mt="50px">
+      <Flex
+        minHeight="100vh"
+        justify="center"
+        flex={1}
+        bg="gray.100"
+        overflow="auto"
+      >
+        <Box pb="100px" width="90%" maxW="1060px" mt="50px">
           <Switch>
             <Route path="/clients">
               <Clients />

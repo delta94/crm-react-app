@@ -49,7 +49,7 @@ const ClientsTable = () => {
   return (
     <Table
       aria-label="Table with static contents"
-      selectionMode="multiple"
+      selectionMode="single"
       width={1000}
       height={400}
       sortDescriptor={list.sortDescriptor}

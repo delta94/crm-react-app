@@ -7,7 +7,9 @@ import useTableContext from "./useTableContext";
 const TableCheckboxCell = ({ cell }) => {
   let ref = useRef();
   let state = useTableContext();
-  let { gridCellProps } = useTableCell(
+  let {
+    gridCellProps: { onClick, ...gridCellProps },
+  } = useTableCell(
     {
       node: cell,
       ref,
@@ -32,7 +34,7 @@ const TableCheckboxCell = ({ cell }) => {
         {state.selectionManager.selectionMode !== "none" && (
           <Checkbox
             isChecked={isSelected}
-            onChange={() => onChange(!isSelected)}
+            onChange={() => onChange(true)}
             {...checkboxProps}
           />
         )}

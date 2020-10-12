@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/core";
+import { Box, Button, Flex } from "@chakra-ui/core";
 import ClientsTable from "components/ClientsTable";
 import Search from "components/Search";
 import SectionHeading from "components/SectionHeading";
@@ -12,6 +12,9 @@ const Clients = () => {
       {/* <EmptyState text="Start typing to search..." /> */}
       <Box>
         <ClientsTable />
+        <Button w="200px" colorScheme="blue" mt={8} ml="auto">
+          Send SMS
+        </Button>
       </Box>
     </Box>
   );

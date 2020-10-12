@@ -31,7 +31,7 @@ const Option = ({ item, state }) => {
       as="li"
       {...mergeProps(optionProps, focusProps)}
       ref={ref}
-      bg={isSelected ? "blue.700" : isFocused ? "blue.500" : "blue.400"}
+      bg={isSelected ? "blue.400" : isFocused ? "blue.700" : "blue.900"}
       color={isSelected ? "white" : "rgba(255, 255, 255, .87)"}
       _hover={{ color: "white" }}
       px={2}
@@ -39,6 +39,7 @@ const Option = ({ item, state }) => {
       outline="none"
       cursor="pointer"
       fontWeight={600}
+      fontSize="sm"
     >
       {item.rendered}
     </Box>
