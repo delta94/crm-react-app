@@ -1,3 +1,4 @@
+import { Checkbox, Flex } from "@chakra-ui/core";
 import { useHover } from "@react-aria/interactions";
 import {
   useTableColumnHeader,
@@ -10,7 +11,9 @@ import useTableContext from "./useTableContext";
 const TableSelectAllCell = ({ column }) => {
   let ref = useRef();
   let state = useTableContext();
-  let { columnHeaderProps } = useTableColumnHeader(
+  let {
+    columnHeaderProps: { onClick, ...columnHeaderProps },
+  } = useTableColumnHeader(
     {
       node: column,
       ref,
@@ -20,28 +23,27 @@ const TableSelectAllCell = ({ column }) => {
     state
   );
 
-  let { checkboxProps } = useTableSelectAllCheckbox(state);
+  let {
+    checkboxProps: { isSelected, onChange, ...checkboxProps },
+  } = useTableSelectAllCheckbox(state);
   let { hoverProps, isHovered } = useHover({});
 
   return (
-    <div
+    <Flex
       {...mergeProps(columnHeaderProps, hoverProps)}
       ref={ref}
-      // className={
-      //   classNames(
-      //     styles,
-      //     'spectrum-Table-headCell',
-      //     'spectrum-Table-checkboxCell',
-      //     {
-      //       'is-hovered': isHovered
-      //     }
-      //   )
-      // }
+      align="center"
+      justify="center"
+      h="100%"
     >
-      {/* <Checkbox
-        {...checkboxProps}
-        UNSAFE_className={classNames(styles, 'spectrum-Table-checkbox')} /> */}
-    </div>
+      {state.selectionManager.selectionMode !== "none" && (
+        <Checkbox
+          isChecked={isSelected}
+          onChange={() => onChange(true)}
+          {...checkboxProps}
+        />
+      )}
+    </Flex>
   );
 };
 

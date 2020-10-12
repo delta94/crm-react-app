@@ -35,12 +35,23 @@ const TableRow = ({ item, children, ...otherProps }) => {
     focusProps,
     hoverProps
   );
-
+  const isEven = item.index % 2;
   return (
     <Box
       {...props}
       ref={ref}
-      _even={{ bg: "gray.50" }}
+      // _even={{ bg: "gray.50" }}
+      // bg={isHovered?'gray.100':''}
+      // _hover={{
+      //   bg: "blue.50",
+      // }}
+      bg={
+        isFocusVisibleWithin || isHovered
+          ? "blue.50"
+          : isEven
+          ? "gray.50"
+          : "white"
+      }
       // className={
       //   classNames(
       //     styles,

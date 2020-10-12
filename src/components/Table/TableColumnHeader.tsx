@@ -21,7 +21,7 @@ const TableColumnHeader = ({ column }) => {
     state
   );
 
-  let columnProps = column.props as SpectrumColumnProps<unknown>;
+  let { align, ...columnProps } = column.props as SpectrumColumnProps<unknown>;
   let { hoverProps, isHovered } = useHover({});
 
   const isCol = state.sortDescriptor?.column === column.key;
@@ -37,6 +37,15 @@ const TableColumnHeader = ({ column }) => {
         height="100%"
         display="flex"
         alignItems="center"
+        justifyContent={
+          align === "center"
+            ? "center"
+            : align === "end"
+            ? "flex-end"
+            : align === "start"
+            ? "flex-start"
+            : "initial"
+        }
         px={4}
         cursor="default"
         _hover={{ color: columnProps.allowsSorting ? "gray.600" : "gray.500" }}

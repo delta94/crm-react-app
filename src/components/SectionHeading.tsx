@@ -2,9 +2,7 @@ import { Flex, Heading } from "@chakra-ui/core";
 import React from "react";
 import { FlexProps } from "@chakra-ui/core";
 
-interface Props extends FlexProps {
-  text: string;
-}
+interface Props extends FlexProps {}
 
 const SectionHeading: React.FC<Props> = (props) => {
   return (
@@ -16,7 +14,7 @@ const SectionHeading: React.FC<Props> = (props) => {
       {...props}
     >
       <Heading as="h1" size="md">
-        {props.text}
+        {props.children}
       </Heading>
     </Flex>
   );

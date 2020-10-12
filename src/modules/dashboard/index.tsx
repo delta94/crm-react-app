@@ -1,33 +1,42 @@
 import { Box, Flex } from "@chakra-ui/core";
 import Sidebar from "components/Sidebar";
-import React from "react";
+import React, { useEffect } from "react";
 
-import ClientsTable from "components/ClientsTable";
-import SectionHeading from "components/SectionHeading";
-import Search from "components/Search";
-import EmptyState from "components/EmptyState";
-
-const Content = () => {
-  return (
-    <Flex justify="center" flex={1} bg="gray.100" overflow="auto">
-      <Box width="90%" maxW="1060px" mt="50px">
-        <SectionHeading text="Clients" mb={10} />
-        <Search mb={6} />
-
-        {/* <EmptyState text="Start typing to search..." /> */}
-        <Box>
-          <ClientsTable />
-        </Box>
-      </Box>
-    </Flex>
-  );
-};
+import Clients from "modules/clients";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
+import Payments from "modules/payments";
 
 const Dashboard = () => {
+  const history = useHistory();
+  const isHome = useRouteMatch({ exact: true, path: "/" });
+
+  useEffect(() => {
+    if (isHome) {
+      history.replace("/clients");
+    }
+  }, []);
+
   return (
     <Flex height="100vh">
       <Sidebar />
-      <Content />
+      <Flex justify="center" flex={1} bg="gray.100" overflow="auto">
+        <Box width="90%" maxW="1060px" mt="50px">
+          <Switch>
+            <Route path="/clients">
+              <Clients />
+            </Route>
+            <Route path="/payments">
+              <Payments />
+            </Route>
+          </Switch>
+        </Box>
+      </Flex>
     </Flex>
   );
 };

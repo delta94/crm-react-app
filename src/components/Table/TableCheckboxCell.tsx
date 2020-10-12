@@ -1,4 +1,4 @@
-import { Checkbox } from "@chakra-ui/core";
+import { Checkbox, Flex } from "@chakra-ui/core";
 import { FocusRing } from "@react-aria/focus";
 import { useTableCell, useTableSelectionCheckbox } from "@react-aria/table";
 import React, { useRef } from "react";
@@ -17,35 +17,26 @@ const TableCheckboxCell = ({ cell }) => {
   );
 
   let {
-    checkboxProps: { onChange, ...checkboxProps },
+    checkboxProps: { onChange, isSelected, ...checkboxProps },
   } = useTableSelectionCheckbox({ key: cell.parentKey }, state);
 
   return (
-    <FocusRing
-    // focusRingClass={classNames(styles, 'focus-ring')}
-    >
-      <div
+    <FocusRing>
+      <Flex
         {...gridCellProps}
         ref={ref}
-        // className={
-        //   classNames(
-        //     styles,
-        //     'spectrum-Table-cell',
-        //     'spectrum-Table-checkboxCell',
-        //     classNames(
-        //       stylesOverrides,
-        //       'react-spectrum-Table-cell'
-        //     )
-        //   )}
+        align="center"
+        justify="center"
+        h="100%"
       >
         {state.selectionManager.selectionMode !== "none" && (
           <Checkbox
-            // onChange={(e)=>{}}
+            isChecked={isSelected}
+            onChange={() => onChange(!isSelected)}
             {...checkboxProps}
-            // UNSAFE_className={classNames(styles, 'spectrum-Table-checkbox')}
           />
         )}
-      </div>
+      </Flex>
     </FocusRing>
   );
 };

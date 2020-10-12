@@ -4,7 +4,7 @@ import { SpectrumColumnProps } from "@react-types/table";
 import React from "react";
 
 const TableCellBase = ({ cell, cellRef, ...otherProps }) => {
-  let columnProps = cell.column.props as SpectrumColumnProps<unknown>;
+  let { align } = cell.column.props as SpectrumColumnProps<unknown>;
 
   return (
     <FocusRing
@@ -17,6 +17,15 @@ const TableCellBase = ({ cell, cellRef, ...otherProps }) => {
         height="100%"
         display="flex"
         alignItems="center"
+        justifyContent={
+          align === "center"
+            ? "center"
+            : align === "end"
+            ? "flex-end"
+            : align === "start"
+            ? "flex-start"
+            : "initial"
+        }
         ref={cellRef}
         // id="asdasdas"
         // className={

@@ -214,9 +214,9 @@ function Table<T extends object>(
           />
         );
       case "column":
-        // if (item.props.isSelectionCell) {
-        //   return <TableSelectAllCell column={item} />;
-        // }
+        if (item.props.isSelectionCell) {
+          return <TableSelectAllCell column={item} />;
+        }
 
         return <TableColumnHeader column={item} />;
       case "loader":
