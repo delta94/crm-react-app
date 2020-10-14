@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Spinner } from "@chakra-ui/core";
+import { Box, Button, Flex, Spinner, Stack } from "@chakra-ui/core";
 import { Selection } from "@react-types/shared";
 import axios from "axios";
 import ClientsTable from "components/ClientsTable";
@@ -68,13 +68,28 @@ const Clients = () => {
   return (
     <Box>
       <SectionHeading mb={10}>Clients</SectionHeading>
-      <Search
-        query={query}
-        setQuery={setQuery}
-        queryType={queryType}
-        setQueryType={setQueryType}
-        mb={6}
-      />
+      <Stack w="100%" direction="row" spacing={4}>
+        <Search
+          flex={1}
+          query={query}
+          setQuery={setQuery}
+          queryType={queryType}
+          setQueryType={setQueryType}
+          mb={6}
+        />
+        <Button
+          onClick={sendSMS}
+          isLoading={sendingSMS}
+          w="200px"
+          colorScheme="blue"
+          mt={8}
+          ml="auto"
+          isDisabled={!Array.from(selectedKeys).length}
+        >
+          Send SMS
+        </Button>
+      </Stack>
+
       {!data.length && !query.length && (
         <EmptyState text="Start typing to search..." />
       )}
@@ -85,16 +100,6 @@ const Clients = () => {
       {!!data.length && (
         <Box>
           <ClientsTable onSelectionChange={setSelectedKeys} items={data} />
-          <Button
-            onClick={sendSMS}
-            isLoading={sendingSMS}
-            w="200px"
-            colorScheme="blue"
-            mt={8}
-            ml="auto"
-          >
-            Send SMS
-          </Button>
         </Box>
       )}
     </Box>

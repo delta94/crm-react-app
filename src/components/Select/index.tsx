@@ -27,9 +27,10 @@ const Select = (props: AriaSelectOptions<{}>) => {
       <HiddenSelect state={state} triggerRef={ref} label={props.label} />
       <Button
         {...buttonProps}
-        colorScheme="blue"
-        bg="blue.400"
-        _hover={{ bg: "blue.600" }}
+        colorScheme="gray"
+        bg="gray.300"
+        _hover={{ bg: "gray.400" }}
+        color="gray.700"
         ref={ref}
       >
         <Flex mr={4} as="span" {...valueProps} fontWeight={600} fontSize="md">
@@ -44,7 +45,7 @@ const Select = (props: AriaSelectOptions<{}>) => {
         </Flex>
         <Icon
           boxSize="17px"
-          color="white"
+          color="gray.700"
           aria-hidden="true"
           as={FiChevronDown}
         />
