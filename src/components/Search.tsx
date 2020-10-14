@@ -26,7 +26,7 @@ const Search: React.FC<Props> = ({
   ...otherProps
 }) => {
   return (
-    <Stack direction="row" spacing={6} {...otherProps}>
+    <Stack direction="row" spacing={4} {...otherProps}>
       <InputGroup>
         <InputLeftElement
           pointerEvents="none"
@@ -47,15 +47,25 @@ const Search: React.FC<Props> = ({
         selectedKey={queryType}
         onSelectionChange={setQueryType}
       >
-        <Item key="fullname">
+        <Item aria-label="Full name" key="fullname">
           {/* <Icon color="white" as={FiUser} /> */}
           Name
         </Item>
-        <Item key="phonenumber">Phone number</Item>
-        <Item key="dateofbirth">Date of birth</Item>
-        <Item key="passportnumber">Passport number</Item>
-        <Item key="inn">INN</Item>
-        <Item key="login">Login</Item>
+        <Item aria-label="Phone number" key="phonenumber">
+          Phone number
+        </Item>
+        <Item aria-label="Date of birth" key="dateofbirth">
+          Date of birth
+        </Item>
+        <Item aria-label="Passport number" key="passportnumber">
+          Passport number
+        </Item>
+        <Item aria-label="INN" key="inn">
+          INN
+        </Item>
+        <Item aria-label="Login" key="login">
+          Login
+        </Item>
       </Select>
     </Stack>
   );
