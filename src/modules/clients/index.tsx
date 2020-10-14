@@ -15,23 +15,32 @@ const fetcher = (url) => axios.get(url).then((res) => res.data);
 const Clients = () => {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [queryType, setQueryType] = useState("name");
+  const [queryType, setQueryType] = useState("fullname");
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchClients = async () => {
       setLoading(true);
-      const res = await search(
-        `https://5f7ebbb0094b670016b76686.mockapi.io/api/clients`,
-        {
-          method: "get",
-          // data: { [queryType]: query },
-        }
-      );
+      // const res = await search(
+      //   `https://5f7ebbb0094b670016b76686.mockapi.io/api/clients`,
+      //   {
+      //     method: "get",
+      //     // data: { [queryType]: query },
+      //   }
+      // );
+
+      const res = await search(`http://localhost:8081/api/client`, {
+        method: "POST",
+        data: { [queryType]: query },
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYwMjY3MzcwNiwiaWF0IjoxNjAyNjU1NzA2fQ.CuSH1-usJiht-hIUc44QiE-B_G7x8OXEESFLBKhzksT52dm1lxj3juJ6pJHuT0IRYVZ7LMHeCLftK3fWO80URg",
+        },
+      });
 
       setLoading(false);
       setData(
-        res?.data?.clients.filter(
+        res?.data?.clients?.filter(
           (c) => c.extid !== null && c.phonenumber !== null
         ) || []
       );
