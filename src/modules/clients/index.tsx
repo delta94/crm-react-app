@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Spinner, Stack } from "@chakra-ui/core";
+import { Box, Button, Flex, Spinner, Stack, Text } from "@chakra-ui/core";
 import { Selection } from "@react-types/shared";
 import axios from "axios";
 import ClientsTable from "components/ClientsTable";
@@ -49,6 +49,8 @@ const Clients = () => {
     };
     if (query.length > 0) {
       fetchClients();
+    } else if (!data.length) {
+      setSelectedKeys(new Set());
     }
   }, [queryType, query]);
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
@@ -63,7 +65,9 @@ const Clients = () => {
       "http://localhost:8081" + "/api/sms",
       {
         recipient: client.mobilephone,
-        text: "OFB Mobile Login " + client.login,
+        text:
+          "Rekvizity dostupa v Internet-Bank. Vash login: lovinguz. ? / ?Internet-bankga kirish uchun rekvizitlar. Sizning login: " +
+          client.login,
       },
       {
         headers: {
@@ -98,19 +102,34 @@ const Clients = () => {
           Send SMS
         </Button>
       </Stack>
+      <Box pos="relative">
+        {!data.length && !query.length && (
+          <EmptyState text="Start typing to search..." />
+        )}
 
-      {!data.length && !query.length && (
-        <EmptyState text="Start typing to search..." />
-      )}
+        {!data.length && !!query.length && (
+          <Flex align="center" justify="center">
+            <Text>Nothing found. Try different queries.</Text>
+          </Flex>
+        )}
 
-      {/* <Flex align="center" justify="center">
-          <Spinner />
-        </Flex> */}
-      {!!data.length && (
-        <Box>
+        {loading && (
+          <Flex
+            pos="absolute"
+            bg="rgba(255,255,255,.5)"
+            w="100%"
+            h="100%"
+            align="center"
+            justify="center"
+          >
+            <Spinner />
+          </Flex>
+        )}
+
+        {!!data.length && (
           <ClientsTable onSelectionChange={setSelectedKeys} items={data} />
-        </Box>
-      )}
+        )}
+      </Box>
     </Box>
   );
 };
