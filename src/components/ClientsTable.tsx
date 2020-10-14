@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import React, { useRef } from "react";
 import Table from "./Table";
 import Column from "./Table/Column";
+import { Selection } from "@react-types/shared";
 
 interface Item {
   extid: string;
@@ -17,6 +18,7 @@ interface Item {
 
 interface Props {
   items: Item[];
+  onSelectionChange: (keys: Selection) => void;
 }
 
 const ClientsTable: React.FC<Props> = (props) => {
@@ -31,6 +33,7 @@ const ClientsTable: React.FC<Props> = (props) => {
       // sortDescriptor={list.sortDescriptor}
       // onSortChange={list.sort}
       ref={tableRef}
+      onSelectionChange={props.onSelectionChange}
     >
       <TableHeader>
         <Column key="fullname" allowsSorting={false}>
