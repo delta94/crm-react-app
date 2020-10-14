@@ -7,6 +7,8 @@ import Search from "components/Search";
 import SectionHeading from "components/SectionHeading";
 import { API_URL } from "helpers/api";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { userSelector } from "store/auth/selectors";
 import useSWR, { mutate } from "swr";
 import { search } from "./search";
 
@@ -17,6 +19,7 @@ const Clients = () => {
   const [query, setQuery] = useState("");
   const [queryType, setQueryType] = useState("fullname");
   const [data, setData] = useState([]);
+  const user = useSelector(userSelector);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -33,8 +36,7 @@ const Clients = () => {
         method: "POST",
         data: { [queryType]: query },
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYwMjY3MzcwNiwiaWF0IjoxNjAyNjU1NzA2fQ.CuSH1-usJiht-hIUc44QiE-B_G7x8OXEESFLBKhzksT52dm1lxj3juJ6pJHuT0IRYVZ7LMHeCLftK3fWO80URg",
+          Authorization: "Bearer " + user.token,
         },
       });
 
@@ -55,14 +57,21 @@ const Clients = () => {
   const sendSMS = async () => {
     setSendingSMS(true);
     // @ts-ignore
-    const client = data[parseInt(Array.from(selectedKeys)[0]) - 1];
-    console.log(client);
+    const client = data.find((c) => c.extid === Array.from(selectedKeys)[0]);
+    console.log(client, data, selectedKeys);
+    await axios.post(
+      "http://localhost:8081" + "/api/sms",
+      {
+        recipient: client.mobilephone,
+        text: "OFB Mobile Login " + client.login,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + user.token,
+        },
+      }
+    );
     setSendingSMS(false);
-    // await axios.post(API_URL + "/api/sms", {
-    //   info: "",
-    //   recipent: client.phonenumber,
-    //   text: "OFB Mobile Login "+client.login,
-    // });
   };
 
   return (
