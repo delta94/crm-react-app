@@ -32,7 +32,7 @@ const Dashboard = () => {
         bg="gray.100"
         overflow="auto"
       >
-        <Box pb="100px" width="90%" maxW="1060px" mt="50px">
+        <Box pb="100px" width="90%" maxW="1200px" mt="50px">
           <Switch>
             <Route path="/clients">
               <Clients />
