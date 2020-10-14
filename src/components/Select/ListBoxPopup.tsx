@@ -14,6 +14,7 @@ const ListBoxPopup = ({ state, ...otherProps }) => {
     {
       autoFocus: state.focusStrategy || true,
       disallowEmptySelection: true,
+      "aria-label": "hey",
     },
     state,
     ref

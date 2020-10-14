@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Spinner, Stack, Text } from "@chakra-ui/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Spinner,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/core";
 import { Selection } from "@react-types/shared";
 import axios from "axios";
 import ClientsTable from "components/ClientsTable";
@@ -20,6 +28,9 @@ const Clients = () => {
   const [queryType, setQueryType] = useState("fullname");
   const [data, setData] = useState([]);
   const user = useSelector(userSelector);
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
+  const [sendingSMS, setSendingSMS] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -47,21 +58,21 @@ const Clients = () => {
         ) || []
       );
     };
+
     if (query.length > 0) {
       fetchClients();
-    } else if (!data.length) {
+    } else {
+      setData([]);
       setSelectedKeys(new Set());
     }
   }, [queryType, query]);
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
 
-  const [sendingSMS, setSendingSMS] = useState(false);
   const sendSMS = async () => {
     setSendingSMS(true);
     // @ts-ignore
     const client = data.find((c) => c.extid === Array.from(selectedKeys)[0]);
-    console.log(client, data, selectedKeys);
-    await axios.post(
+
+    const res = await axios.post(
       "http://localhost:8081" + "/api/sms",
       {
         recipient: client.mobilephone,
@@ -75,6 +86,36 @@ const Clients = () => {
         },
       }
     );
+
+    if (res.status === 200) {
+      toast({
+        title: "Success sent",
+        // description: "",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+    } else if (res.status === 403) {
+      toast({
+        title: "Error",
+        description: "You do not have enough permisson to perform this action.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+    } else {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact the developer.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+    }
+
     setSendingSMS(false);
   };
 
@@ -108,9 +149,7 @@ const Clients = () => {
         )}
 
         {!data.length && !!query.length && (
-          <Flex align="center" justify="center">
-            <Text>Nothing found. Try different queries.</Text>
-          </Flex>
+          <EmptyState text="Nothing found. Try different queries." />
         )}
 
         {loading && (
@@ -121,6 +160,8 @@ const Clients = () => {
             h="100%"
             align="center"
             justify="center"
+            top={0}
+            left={0}
           >
             <Spinner />
           </Flex>

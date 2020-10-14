@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/core";
 import { Item } from "@react-stately/collections";
 import React from "react";
-import { FiUser } from "react-icons/fi";
+import { FiCalendar, FiHash, FiPhone, FiUser } from "react-icons/fi";
 import Select from "./Select";
 
 interface Props extends StackProps {
@@ -17,6 +17,15 @@ interface Props extends StackProps {
   setQuery: (value: string) => void;
   setQueryType: (value: string) => void;
 }
+
+const icons = {
+  fullname: FiUser,
+  dateofbirth: FiCalendar,
+  mobilephone: FiPhone,
+  login: FiUser,
+  passnumber: FiHash,
+  inn: FiHash,
+};
 
 const Search: React.FC<Props> = ({
   query,
@@ -30,7 +39,7 @@ const Search: React.FC<Props> = ({
       <InputGroup>
         <InputLeftElement
           pointerEvents="none"
-          children={<Icon color="gray.400" as={FiUser} />}
+          children={<Icon color="gray.400" as={icons[queryType]} />}
         />
         <Input
           size="md"
@@ -51,13 +60,13 @@ const Search: React.FC<Props> = ({
           {/* <Icon color="white" as={FiUser} /> */}
           Name
         </Item>
-        <Item aria-label="Phone number" key="phonenumber">
+        <Item aria-label="Phone number" key="mobilephone">
           Phone number
         </Item>
         <Item aria-label="Date of birth" key="dateofbirth">
           Date of birth
         </Item>
-        <Item aria-label="Passport number" key="passportnumber">
+        <Item aria-label="Passport number" key="passnumber">
           Passport number
         </Item>
         <Item aria-label="INN" key="inn">

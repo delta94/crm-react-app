@@ -1,51 +1,27 @@
 import { Box, Button, Tag, Text } from "@chakra-ui/core";
-import { useAsyncList } from "@react-stately/data";
 import { Cell, Row, TableBody, TableHeader } from "@react-stately/table";
+import axios from "axios";
 import SectionHeading from "components/SectionHeading";
 import Table from "components/Table";
 import Column from "components/Table/Column";
 import dayjs from "dayjs";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-const PaymentsTable = () => {
+interface Item {
+  providerid: string;
+  withdraw: number;
+  reward: number;
+  purpose: string;
+  createdon: string;
+  state: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const PaymentsTable: React.FC<Props> = (props) => {
   const tableRef = useRef(null);
-  interface Item {
-    providerid: string;
-    withdraw: number;
-    reward: number;
-    purpose: string;
-    createdon: string;
-    state: string;
-  }
-
-  let list = useAsyncList<Item>({
-    getKey: (item) => item.providerid,
-    async load({ signal }) {
-      let url = new URL(
-        "https://5f7ebbb0094b670016b76686.mockapi.io/api/payments"
-      );
-      // if (cursor) {
-      //   url.searchParams.append("after", cursor);
-      // }
-
-      let res = await fetch(url.toString(), { signal });
-      let json = await res.json();
-
-      return { items: json.transacts };
-    },
-    async sort({ items, sortDescriptor }) {
-      return {
-        items: items.slice().sort((a, b) => {
-          let cmp =
-            a[sortDescriptor.column] < b[sortDescriptor.column] ? -1 : 1;
-          if (sortDescriptor.direction === "descending") {
-            cmp *= -1;
-          }
-          return cmp;
-        }),
-      };
-    },
-  });
 
   return (
     <Table
@@ -53,15 +29,15 @@ const PaymentsTable = () => {
       selectionMode="none"
       width={1000}
       height={400}
-      sortDescriptor={list.sortDescriptor}
-      onSortChange={list.sort}
+      // sortDescriptor={list.sortDescriptor}
+      // onSortChange={list.sort}
       ref={tableRef}
     >
       <TableHeader>
-        <Column key="purpose" allowsSorting={true}>
+        <Column key="purpose" allowsSorting={false}>
           Purpose
         </Column>
-        <Column align="end" key="withdraw" width={120} allowsSorting={true}>
+        <Column align="end" key="withdraw" width={120} allowsSorting={false}>
           Widthdraw
         </Column>
         <Column
@@ -69,22 +45,18 @@ const PaymentsTable = () => {
           key="reward"
           width={120}
           isRowHeader
-          allowsSorting={true}
+          allowsSorting={false}
         >
           Reward
         </Column>
-        <Column key="createdon" width={150} allowsSorting={true}>
+        <Column key="createdon" width={150} allowsSorting={false}>
           Date
         </Column>
-        <Column key="state" width={150} allowsSorting={true}>
+        <Column key="state" width={150} allowsSorting={false}>
           State
         </Column>
       </TableHeader>
-      <TableBody
-        items={list.items}
-        isLoading={list.isLoading}
-        onLoadMore={list.loadMore}
-      >
+      <TableBody items={props.items}>
         {(item) => (
           <Row key={item.providerid}>
             {(key) => (
@@ -106,11 +78,42 @@ const PaymentsTable = () => {
 };
 
 const Payments = () => {
+  const [loading, setLoading] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      // const res = await axios.post('localhost:8081'+'/api/bss-paynet')
+      const res = await axios(
+        "https://5f7ebbb0094b670016b76686.mockapi.io/api/payments"
+      );
+      setData(res?.data?.transacts || []);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const confirm = async () => {
+    setConfirming(true);
+    // const res = await axios()
+    setConfirming(false);
+  };
+
   return (
     <Box>
       <SectionHeading mb={10}>Payments</SectionHeading>
-      <PaymentsTable />
-      <Button w="200px" colorScheme="blue" mt={8} ml="auto">
+      <PaymentsTable items={data} />
+      <Button
+        isLoading={confirming}
+        onClick={confirm}
+        w="200px"
+        colorScheme="blue"
+        mt={8}
+        ml="auto"
+      >
         Confirm
       </Button>
     </Box>
