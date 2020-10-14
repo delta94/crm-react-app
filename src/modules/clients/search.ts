@@ -14,15 +14,15 @@ const makeRequestCreator = () => {
     // Create a new CancelToken
     cancel = axios.CancelToken.source();
     try {
-      if (resources[query]) {
-        // Return result if it exists
-        return resources[query];
-      }
+      // if (resources[query]) {
+      //   // Return result if it exists
+      //   return resources[query];
+      // }
       const res = await axios(query, { ...options, cancelToken: cancel.token });
 
       const result = res;
       // Store response
-      resources[query] = result;
+      // resources[query] = result;
 
       return result;
     } catch (error) {

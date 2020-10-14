@@ -43,11 +43,11 @@ const Search: React.FC<Props> = ({
       </InputGroup>
       <Select
         label="Favorite Color"
-        defaultSelectedKey="name"
+        defaultSelectedKey="fullname"
         selectedKey={queryType}
         onSelectionChange={setQueryType}
       >
-        <Item key="name">
+        <Item key="fullname">
           {/* <Icon color="white" as={FiUser} /> */}
           Name
         </Item>
