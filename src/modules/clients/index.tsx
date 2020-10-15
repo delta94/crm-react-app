@@ -76,9 +76,7 @@ const Clients = () => {
       "http://localhost:8081" + "/api/sms",
       {
         recipient: client.mobilephone,
-        text:
-          "Rekvizity dostupa v Internet-Bank. Vash login: lovinguz. ? / ?Internet-bankga kirish uchun rekvizitlar. Sizning login: " +
-          client.login,
+        text: `Rekvizity dostupa v Internet-Bank. Vash login: ${client.login}. ? / ?Internet-bankga kirish uchun rekvizitlar. Sizning login: ${client.login}`,
       },
       {
         headers: {
