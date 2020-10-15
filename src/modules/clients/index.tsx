@@ -159,6 +159,7 @@ const Clients = () => {
             justify="center"
             top={0}
             left={0}
+            zIndex={99}
           >
             <Spinner />
           </Flex>

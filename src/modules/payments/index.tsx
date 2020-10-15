@@ -1,25 +1,32 @@
 import {
   Box,
   Button,
+  Flex,
   Icon,
   Input,
   InputGroup,
   InputLeftElement,
+  Spinner,
   Stack,
   Tag,
   Text,
+  Tooltip,
   useToast,
 } from "@chakra-ui/core";
 import { Cell, Row, TableBody, TableHeader } from "@react-stately/table";
 import axios from "axios";
+import EmptyState from "components/EmptyState";
 import SectionHeading from "components/SectionHeading";
 import Table from "components/Table";
 import Column from "components/Table/Column";
 import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
 import { FiCalendar, FiCheck, FiDownload } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { userSelector } from "store/auth/selectors";
 
 interface Item {
+  id: string;
   providerid: string;
   withdraw: number;
   reward: number;
@@ -70,7 +77,7 @@ const PaymentsTable: React.FC<Props> = (props) => {
       </TableHeader>
       <TableBody items={props.items}>
         {(item) => (
-          <Row key={item.providerid}>
+          <Row key={item.id}>
             {(key) => (
               <Cell>
                 {key === "createdon" ? (
@@ -96,42 +103,66 @@ const PaymentsTable: React.FC<Props> = (props) => {
 const Payments = () => {
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      // const res = await axios.post('localhost:8081'+'/api/bss-paynet')
-      const res = await axios(
-        "https://5f7ebbb0094b670016b76686.mockapi.io/api/payments"
-      );
-      setData(res?.data?.transacts || []);
-      setLoading(false);
-    };
-
-    fetchData();
-  }, []);
+  const [data, setData] = useState<Item[]>([]);
+  const [date, setDate] = useState("");
+  const isDateValid = dayjs(date).isValid();
+  const user = useSelector(userSelector);
+  const toast = useToast();
+  const canConfirm = data.some((t) => t.state === "CREATED");
 
   const confirm = async () => {
     setConfirming(true);
-    // const res = await axios()
+    let res;
+    try {
+      res = await axios(`http://localhost:8081/api/bss-paynet-set/${date}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+        method: "PUT",
+      });
+      if (res.status === 200) {
+        toast({
+          title: "Successfull confirmed",
+          // description: "",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom-right",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact the developer.",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      console.log(error);
+    }
+
     setConfirming(false);
   };
 
-  const [date, setDate] = useState("");
-
-  const toast = useToast();
   const getTransacts = async () => {
-    if (!dayjs(date).isValid()) {
+    if (!isDateValid) {
       return;
     }
     setLoading(true);
 
-    // const res = await axios(`https://5f7ebbb0094b670016b76686.mockapi.io/api/payments/${date}`)
     const res = await axios(
-      `https://5f7ebbb0094b670016b76686.mockapi.io/api/payments`
+      `http://localhost:8081/api/bss-paynet/${dayjs(date)
+        .format("YYYY-MM-DD")
+        .toString()}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      }
     );
-    setData(res.data?.transacts || []);
+    // const res = await axios(
+    //   `https://5f7ebbb0094b670016b76686.mockapi.io/api/payments`
+    // );
+    setData(
+      res.data?.transacts?.map((t, i) => ({ ...t, id: `${i}${t.docid}` })) || []
+    );
 
     if (res.status !== 200) {
       toast({
@@ -169,25 +200,55 @@ const Payments = () => {
           flexBasis="17%"
           colorScheme="blue"
           onClick={getTransacts}
-          isDisabled={!dayjs(date).isValid()}
+          isDisabled={!isDateValid}
           isLoading={loading}
           leftIcon={<Icon as={FiDownload} />}
         >
           Get transacts
         </Button>
+        <Tooltip
+          hasArrow
+          placement="top"
+          label={canConfirm ? "" : "Already confirmed"}
+        >
+          <Button
+            isLoading={confirming}
+            onClick={confirm}
+            w="200px"
+            colorScheme="green"
+            leftIcon={<Icon as={FiCheck} />}
+            isDisabled={!canConfirm}
+          >
+            Confirm
+          </Button>
+        </Tooltip>
       </Stack>
-      <PaymentsTable items={data} />
-      <Button
-        isLoading={confirming}
-        onClick={confirm}
-        w="200px"
-        colorScheme="blue"
-        mt={6}
-        ml="auto"
-        leftIcon={<Icon as={FiCheck} />}
-      >
-        Confirm
-      </Button>
+      <Box pos="relative">
+        {!data.length && !isDateValid && (
+          <EmptyState text="Enter a valid date to search" />
+        )}
+
+        {!data.length && isDateValid && (
+          <EmptyState text="Nothing found. Try different a date." />
+        )}
+
+        {loading && (
+          <Flex
+            pos="absolute"
+            bg="rgba(255,255,255,.5)"
+            w="100%"
+            h="100%"
+            align="center"
+            justify="center"
+            top={0}
+            left={0}
+          >
+            <Spinner />
+          </Flex>
+        )}
+
+        {!!data.length && <PaymentsTable items={data} />}
+      </Box>
     </Box>
   );
 };
