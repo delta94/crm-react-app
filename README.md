@@ -2,17 +2,12 @@
 
 ## Tech stack
 
-React
-
-Redux / [Redux Toolkit](https://redux-toolkit.js.org/)
-
-[Chakra UI](https://next.chakra-ui.com)
-
-Typescript
-
-[React Aria](https://react-spectrum.adobe.com)
-
-[Axios](https://github.com/axios/axios)
+- React 
+- Redux / [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Chakra UI](https://next.chakra-ui.com) 
+- Typescript 
+- [React Aria](https://react-spectrum.adobe.com) 
+- [Axios](https://github.com/axios/axios) 
 
 ## How to navigate / Folder structure
 
