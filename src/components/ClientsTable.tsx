@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 import Table from "./Table";
 import Column from "./Table/Column";
 import { Selection } from "@react-types/shared";
+import PhoneNumber from "awesome-phonenumber";
 
 interface Item {
   extid: string;
@@ -51,7 +52,7 @@ const ClientsTable: React.FC<Props> = (props) => {
         <Column key="inn" width={150} allowsSorting={false}>
           INN
         </Column>
-        <Column key="passnumber" width={150} allowsSorting={false}>
+        <Column key="passnumber" width={120} allowsSorting={false}>
           Passport number
         </Column>
       </TableHeader>
@@ -62,6 +63,8 @@ const ClientsTable: React.FC<Props> = (props) => {
               <Cell>
                 {key === "dateofbirth"
                   ? dayjs(item[key]).format("YYYY-MM-DD").toString()
+                  : key === "mobilephone"
+                  ? new PhoneNumber(item[key], "UZ").getNumber("national")
                   : item[key]}
               </Cell>
             )}

@@ -53,9 +53,14 @@ const Clients = () => {
 
       setLoading(false);
       setData(
-        res?.data?.clients?.filter(
-          (c) => c.extid !== null && c.phonenumber !== null
-        ) || []
+        res?.data?.clients
+          ?.filter((c) => c.extid !== null && c.mobilephone !== null)
+          .sort(
+            (
+              a: any,
+              b: any //@ts-ignore
+            ) => new Date(b.dateofbirth) - new Date(a.dateofbirth)
+          ) || []
       );
     };
 
