@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import { FiCalendar, FiCheck, FiDownload } from "react-icons/fi";
 import { PaynetTransaction } from "MyTypes";
-import PaynetTable from "components/paynetTable";
+import PaynetTable from "components/PaynetTable";
 
 const Payments = () => {
   const [loading, setLoading] = useState(false);
