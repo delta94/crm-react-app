@@ -10,6 +10,7 @@ import {
   Text,
   Tooltip,
   IconButton,
+  Heading,
 } from "@chakra-ui/core";
 import React, { useEffect, useState } from "react";
 import {
@@ -21,7 +22,9 @@ import {
 } from "react-router-dom";
 import {
   FiArrowDownLeft,
+  FiArrowLeft,
   FiChevronLeft,
+  FiChevronRight,
   FiCreditCard,
   FiUser,
   FiUsers,
@@ -37,6 +40,7 @@ const MotionIcon = motion.custom(Icon);
 // Use component based method like chakra-ui, not object based
 const menus = [
   {
+    key: "clients",
     icon: FiUsers,
     label: "Clients",
     url: "/clients",
@@ -44,11 +48,22 @@ const menus = [
       { icon: FiUsers, label: "Users", url: "/users" },
       {
         icon: FiCreditCard,
+        key: "clients.payments",
         label: "Payment",
-        url: "",
+        url: "/payments",
         children: [
-          { icon: FiUsers, label: "Lol", url: "/yes" },
-          { icon: FiCreditCard, label: "Lol2", url: "/not" },
+          {
+            key: "clients.payments.lol",
+            icon: FiUsers,
+            label: "Lol",
+            url: "/yes",
+          },
+          {
+            key: "clients.payments.lol2",
+            icon: FiCreditCard,
+            label: "Lol2",
+            url: "/not",
+          },
         ],
       },
     ],
@@ -56,19 +71,31 @@ const menus = [
   {
     icon: FiCreditCard,
     label: "Payments",
+    key: "payments",
     url: "/payments",
     children: [
-      { icon: FiUsers, label: "Lol", url: "/users" },
-      { icon: FiCreditCard, label: "Lol2", url: "/payments" },
+      { key: "payments.lol", icon: FiUsers, label: "Lol", url: "/users" },
+      {
+        key: "payments.lol2",
+        icon: FiCreditCard,
+        label: "Lol2",
+        url: "/payments",
+      },
     ],
   },
   {
     icon: FiCreditCard,
     label: "Not payments",
     url: "/not-payments",
+    key: "not-payments",
     children: [
-      { icon: FiUsers, label: "Huh?", url: "/users" },
-      { icon: FiCreditCard, label: "Lol2", url: "/payments" },
+      { key: "not-payments.lol", icon: FiUsers, label: "Huh?", url: "/users" },
+      {
+        key: "not-payments.lol2",
+        icon: FiCreditCard,
+        label: "Lol2",
+        url: "/payments",
+      },
     ],
   },
 ];
@@ -82,15 +109,13 @@ const flatten = (
 ): any[] => {
   const flattened = [];
   arr.forEach((item) => {
-    const key = item.label + getRandomInt(0, 100);
     flattened.push({
       ...item,
       url: prefix + item.url,
       parentKey: parentKey || null,
-      key,
     });
     if (item.children) {
-      flattened.push(...flatten(item.children, prefix + item.url, key));
+      flattened.push(...flatten(item.children, prefix + item.url, item.key));
     }
   });
 
@@ -121,7 +146,7 @@ const NavLink: React.FC<NavLinkProps> = ({ children, to, ...otherProps }) => {
       {...(otherProps as any)}
       as={Link}
       transition="all .1s ease-in-out"
-      _hover={{ bg: "gray.50" }}
+      _hover={{ bg: "gray.100" }}
       to={to}
       aria-selected={!!match}
       _selected={{ bg: "gray.100" }}
@@ -133,11 +158,13 @@ const NavLink: React.FC<NavLinkProps> = ({ children, to, ...otherProps }) => {
 
 interface NestedNavLinkProps extends BoxProps {
   paths: string[];
+  hasArrow?: boolean;
 }
 
 const NestedNavLink: React.FC<NestedNavLinkProps> = ({
   children,
   paths,
+  hasArrow = true,
   ...otherProps
 }) => {
   const match = useRouteMatch({ exact: false, path: paths });
@@ -156,12 +183,13 @@ const NestedNavLink: React.FC<NestedNavLinkProps> = ({
       {...(otherProps as any)}
       as={Link}
       transition="all .1s ease-in-out"
-      _hover={{ bg: "gray.50" }}
+      _hover={{ bg: "gray.100" }}
       // to=''
       aria-selected={!!match}
       _selected={{ bg: "gray.100" }}
     >
-      {children}
+      {children}{" "}
+      {hasArrow && <Icon boxSize={5} ml="auto" as={FiChevronRight} />}
     </Box>
   );
 };
@@ -196,7 +224,14 @@ const Sidebar = () => {
   console.log(selectedMenu);
   const childIds = selectedMenu.children.map((c) => c.key);
   const items = flatMenu.filter((item) => childIds.includes(item.key));
-  console.log(childIds);
+  // console.log(childIds);
+
+  const goBack = () => {
+    const parent = flatMenu.find((menu) => menu.key === selectedMenu.parentKey);
+    console.log(parent);
+
+    setSelectedMenu(parent);
+  };
 
   return (
     <>
@@ -227,10 +262,14 @@ const Sidebar = () => {
             w="60px"
           >
             <Stack px="10px">
-              {menus.map((item, key) => (
+              {menus.map((item: any, key) => (
                 <NavLink
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     setSelectedMenu(item);
+                    if (!isOpen) {
+                      onToggle();
+                    }
                   }}
                   key={key}
                   to={item.url}
@@ -294,7 +333,7 @@ const Sidebar = () => {
             borderRightWidth="1px"
             borderRightColor="gray.200"
             borderRightStyle="solid"
-            pt={16}
+            pt={8}
             flexDirection="column"
             display="flex"
             height="100%"
@@ -310,15 +349,25 @@ const Sidebar = () => {
               },
             }}
           >
-            {selectedMenu.children && (
-              <Flex>
-                <Icon as={FiArrowDownLeft} />
-                {selectedMenu.label}
+            {!!selectedMenu.children && !!selectedMenu.parentKey ? (
+              <Flex px="24px" align="center">
+                <Button
+                  leftIcon={<FiArrowLeft />}
+                  onClick={goBack}
+                  variant="link"
+                  color="gray.900"
+                >
+                  {selectedMenu.label}
+                </Button>
               </Flex>
-            )}
+            ) : !!selectedMenu.children && !selectedMenu.parentKey ? (
+              <Flex px="24px" align="center">
+                <Heading size="sm">{selectedMenu.label}</Heading>
+              </Flex>
+            ) : null}
             <Stack
               position="absolute"
-              top={16}
+              top={20}
               left={0}
               width="260px"
               px="14px"
