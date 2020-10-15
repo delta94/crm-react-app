@@ -80,8 +80,8 @@ function TableVirtualizer({
     [collection.body.props, state.setVisibleRect, state.virtualizer]
   );
 
-  state.contentSize.width = 1000;
-  state.contentSize.height = 500;
+  // state.contentSize.width = 1000;
+  // state.contentSize.height = 500;
 
   return (
     <div {...mergeProps(otherProps, virtualizerProps)} ref={domRef}>

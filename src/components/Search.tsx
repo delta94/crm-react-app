@@ -6,38 +6,78 @@ import {
   Stack,
   StackProps,
 } from "@chakra-ui/core";
+import { useMessageFormatter } from "@react-aria/i18n";
 import { Item } from "@react-stately/collections";
+import strings from "config/strings";
 import React from "react";
-import { FiUser } from "react-icons/fi";
+import { FiCalendar, FiHash, FiPhone, FiUser } from "react-icons/fi";
 import Select from "./Select";
 
-interface Props extends StackProps {}
+interface Props extends StackProps {
+  query: string;
+  queryType: string;
+  setQuery: (value: string) => void;
+  setQueryType: (value: string) => void;
+}
 
-const Search: React.FC<Props> = (props) => {
+const icons = {
+  fullname: FiUser,
+  dateofbirth: FiCalendar,
+  mobilephone: FiPhone,
+  login: FiUser,
+  passnumber: FiHash,
+  inn: FiHash,
+};
+
+const Search: React.FC<Props> = ({
+  query,
+  queryType,
+  setQuery,
+  setQueryType,
+  ...otherProps
+}) => {
+  const formatMessage = useMessageFormatter(strings);
+
   return (
-    <Stack direction="row" spacing={6} {...props}>
+    <Stack direction="row" spacing={4} {...otherProps}>
       <InputGroup>
         <InputLeftElement
           pointerEvents="none"
-          children={<Icon color="gray.400" as={FiUser} />}
+          children={<Icon color="gray.400" as={icons[queryType]} />}
         />
         <Input
           size="md"
           bg="white"
           color="gray.600"
-          placeholder="Type to search"
+          type={queryType === "dateofbirth" ? "date" : "text"}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
       </InputGroup>
-      <Select label="Favorite Color" defaultSelectedKey="Name">
-        <Item key="Name">
-          {/* <Icon color="white" as={FiUser} /> */}
-          Name
+      <Select
+        label={formatMessage("components.clientSearch.searchBy")}
+        defaultSelectedKey="fullname"
+        selectedKey={queryType}
+        onSelectionChange={setQueryType}
+      >
+        <Item aria-label="Full name" key="fullname">
+          {formatMessage("components.clientSearch.name")}
         </Item>
-        <Item key="Phone number">Phone number</Item>
-        <Item key="Date of birth">Date of birth</Item>
-        <Item key="Passport number">Passport number</Item>
-        <Item key="INN">INN</Item>
-        <Item key="Login">Login</Item>
+        <Item aria-label="Phone number" key="mobilephone">
+          {formatMessage("components.clientSearch.phonenumber")}
+        </Item>
+        <Item aria-label="Date of birth" key="dateofbirth">
+          {formatMessage("components.clientSearch.dateofbirth")}
+        </Item>
+        <Item aria-label="Passport number" key="passnumber">
+          {formatMessage("components.clientSearch.passnumber")}
+        </Item>
+        <Item aria-label="INN" key="inn">
+          {formatMessage("components.clientSearch.inn")}
+        </Item>
+        <Item aria-label="Login" key="login">
+          {formatMessage("components.clientSearch.login")}
+        </Item>
       </Select>
     </Stack>
   );

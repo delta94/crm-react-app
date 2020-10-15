@@ -70,7 +70,7 @@ function Table<T extends object>(
   ref: DOMRef<HTMLDivElement>
 ) {
   // props = useProviderProps(props);
-  let { isQuiet } = props;
+
   // let { styleProps } = useStyleProps(props);
   let state = useTableState({ ...props, showSelectionCheckboxes: true });
   let domRef = useDOMRef(ref);
@@ -265,6 +265,12 @@ function Table<T extends object>(
           //   },
           //   classNames(stylesOverrides, "react-spectrum-Table")
           // )}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            // width: props.width,
+            height: props.height,
+          }}
           layout={layout}
           collection={state.collection}
           focusedKey={state.selectionManager.focusedKey}

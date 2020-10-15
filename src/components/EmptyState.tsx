@@ -7,8 +7,8 @@ interface Props extends FlexProps {
 
 const EmptyState: React.FC<Props> = ({ text = "Empty", ...props }) => {
   return (
-    <Flex align="center" justify="center" {...props}>
-      <Heading fontWeight={600} size="md" color="gray.500">
+    <Flex py={12} align="center" justify="center" {...props}>
+      <Heading as="p" fontWeight={600} size="md" color="gray.500">
         {text}
       </Heading>
     </Flex>

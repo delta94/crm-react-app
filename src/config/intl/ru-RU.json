@@ -1,0 +1,26 @@
+{
+  "pages.login.heading": "Привет",
+  "pages.login.username": "Имя пользователья",
+  "pages.login.password": "Пароль",
+  "pages.login.action": "Войти",
+
+  "pages.clients.heading": "Пользователи",
+  "pages.clients.sendSMS": "Отправить SMS",
+  "pages.clients.nothingFound": "Ничего не найдено по вашему запросу.",
+  "pages.clients.empty": "Начните печатать чтобы искать...",
+
+  "components.clientsTable.name": "Имя",
+  "components.clientsTable.login": "Логин",
+  "components.clientsTable.dateofbirth": "День рождения",
+  "components.clientsTable.phonenumber": "Номер телефона",
+  "components.clientsTable.inn": "ИНН",
+  "components.clientsTable.passnumber": "Номер пасспорта",
+
+  "components.clientSearch.searchBy": "Искать по:",
+  "components.clientSearch.name": "Имени",
+  "components.clientSearch.login": "Логину",
+  "components.clientSearch.dateofbirth": "Дате рождения",
+  "components.clientSearch.phonenumber": "Номер телефона",
+  "components.clientSearch.inn": "ИНН",
+  "components.clientSearch.passnumber": "Номер пасспорта"
+}
