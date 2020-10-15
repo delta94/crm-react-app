@@ -34,9 +34,11 @@ const Select = (props: AriaSelectOptions<{}>) => {
         ref={ref}
       >
         <Flex mr={4} as="span" {...valueProps} fontWeight={600} fontSize="md">
-          <Text mr={1} as="span" opacity="87%">
-            Search by:
-          </Text>
+          {props.label && (
+            <Text mr={1} as="span" opacity="87%">
+              {props.label}
+            </Text>
+          )}
           <Text as="span">
             {state.selectedItem
               ? state.selectedItem.rendered

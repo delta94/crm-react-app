@@ -6,6 +6,8 @@ import Table from "./Table";
 import Column from "./Table/Column";
 import { Selection } from "@react-types/shared";
 import PhoneNumber from "awesome-phonenumber";
+import { useMessageFormatter } from "@react-aria/i18n";
+import strings from "config/strings";
 
 interface Item {
   extid: string;
@@ -24,6 +26,7 @@ interface Props {
 
 const ClientsTable: React.FC<Props> = (props) => {
   const tableRef = useRef(null);
+  const formatMessage = useMessageFormatter(strings);
 
   return (
     <Table
@@ -38,22 +41,22 @@ const ClientsTable: React.FC<Props> = (props) => {
     >
       <TableHeader>
         <Column key="fullname" allowsSorting={false}>
-          Name
+          {formatMessage("components.clientsTable.name")}
         </Column>
         <Column key="login" width={120} allowsSorting={false}>
-          Login
+          {formatMessage("components.clientsTable.login")}
         </Column>
         <Column key="dateofbirth" width={140} isRowHeader allowsSorting={false}>
-          Date of birth
+          {formatMessage("components.clientsTable.dateofbirth")}
         </Column>
         <Column key="mobilephone" width={140} allowsSorting={false}>
-          Phone number
+          {formatMessage("components.clientsTable.phonenumber")}
         </Column>
         <Column key="inn" width={120} allowsSorting={false}>
-          INN
+          {formatMessage("components.clientsTable.inn")}
         </Column>
         <Column key="passnumber" width={150} allowsSorting={false}>
-          Passport number
+          {formatMessage("components.clientsTable.passnumber")}
         </Column>
       </TableHeader>
       <TableBody items={props.items}>

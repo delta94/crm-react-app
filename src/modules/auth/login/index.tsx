@@ -21,6 +21,8 @@ import { login } from "store/auth/thunks";
 import { useDispatch, useSelector } from "react-redux";
 import { isAuthenticatedSelector } from "store/auth/selectors";
 import { useHistory } from "react-router-dom";
+import { useMessageFormatter } from "@react-aria/i18n";
+import strings from "config/strings";
 
 const Login = () => {
   const toast = useToast();
@@ -36,6 +38,7 @@ const Login = () => {
     isOpen: isPasswordShown,
     onToggle: togglePasswordVisibility,
   } = useDisclosure({ defaultIsOpen: false });
+
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isAuth = useSelector(isAuthenticatedSelector);
@@ -65,20 +68,23 @@ const Login = () => {
       history.push("/");
     }
   }, [isAuth]);
+  const formatMessage = useMessageFormatter(strings);
 
   return (
     <Flex bg="blue.100" minHeight="100vh">
       <Flex justify="center" w="40%" maxW="40%" bg="white" height="100vh">
         <Flex mt={-8} justify="center" direction="column" width="400px">
           <Logo mb={3} />
-          <Heading mb={16}>Welcome back</Heading>
+          <Heading mb={16}>{formatMessage("pages.login.heading")}</Heading>
           <form onSubmit={onSubmit}>
             <Stack spacing={3}>
               <FormControl
                 isRequired={true}
                 isInvalid={Boolean(errors.username)}
               >
-                <FormLabel htmlFor="username">Username</FormLabel>
+                <FormLabel htmlFor="username">
+                  {formatMessage("pages.login.username")}
+                </FormLabel>
                 <Input
                   size="lg"
                   type="text"
@@ -93,7 +99,9 @@ const Login = () => {
                 isRequired={true}
                 isInvalid={Boolean(errors.password)}
               >
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password">
+                  {formatMessage("pages.login.password")}
+                </FormLabel>
                 <InputGroup size="lg">
                   <Input
                     size="lg"
@@ -123,7 +131,7 @@ const Login = () => {
                 isLoading={isSubmitting}
                 type="submit"
               >
-                Submit
+                {formatMessage("pages.login.action")}
               </Button>
             </Stack>
           </form>

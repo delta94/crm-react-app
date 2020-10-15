@@ -8,12 +8,14 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/core";
+import { useMessageFormatter } from "@react-aria/i18n";
 import { Selection } from "@react-types/shared";
 import axios from "axios";
 import ClientsTable from "components/ClientsTable";
 import EmptyState from "components/EmptyState";
 import Search from "components/Search";
 import SectionHeading from "components/SectionHeading";
+import strings from "config/strings";
 import { API_URL } from "helpers/api";
 import React, { useEffect, useState } from "react";
 import { FiMail } from "react-icons/fi";
@@ -33,6 +35,7 @@ const Clients = () => {
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
   const [sendingSMS, setSendingSMS] = useState(false);
   const toast = useToast();
+  const formatMessage = useMessageFormatter(strings);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -126,7 +129,9 @@ const Clients = () => {
 
   return (
     <Box>
-      <SectionHeading mb={10}>Clients</SectionHeading>
+      <SectionHeading mb={10}>
+        {formatMessage("pages.clients.heading")}
+      </SectionHeading>
       <Stack mb={6} w="100%" direction="row" spacing={4}>
         <Search
           flex={1}
@@ -145,16 +150,16 @@ const Clients = () => {
           isDisabled={!Array.from(selectedKeys).length}
           leftIcon={<Icon as={FiMail} />}
         >
-          Send SMS
+          {formatMessage("pages.clients.sendSMS")}
         </Button>
       </Stack>
       <Box pos="relative">
         {!data.length && !query.length && (
-          <EmptyState text="Start typing to search..." />
+          <EmptyState text={formatMessage("pages.clients.empty")} />
         )}
 
         {!data.length && !!query.length && (
-          <EmptyState text="Nothing found. Try different queries." />
+          <EmptyState text={formatMessage("pages.clients.nothingFound")} />
         )}
 
         {loading && (

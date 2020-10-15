@@ -6,7 +6,9 @@ import {
   Stack,
   StackProps,
 } from "@chakra-ui/core";
+import { useMessageFormatter } from "@react-aria/i18n";
 import { Item } from "@react-stately/collections";
+import strings from "config/strings";
 import React from "react";
 import { FiCalendar, FiHash, FiPhone, FiUser } from "react-icons/fi";
 import Select from "./Select";
@@ -34,6 +36,8 @@ const Search: React.FC<Props> = ({
   setQueryType,
   ...otherProps
 }) => {
+  const formatMessage = useMessageFormatter(strings);
+
   return (
     <Stack direction="row" spacing={4} {...otherProps}>
       <InputGroup>
@@ -45,36 +49,34 @@ const Search: React.FC<Props> = ({
           size="md"
           bg="white"
           color="gray.600"
-          placeholder="Type to search"
           type={queryType === "dateofbirth" ? "date" : "text"}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </InputGroup>
       <Select
-        label="Favorite Color"
+        label={formatMessage("components.clientSearch.searchBy")}
         defaultSelectedKey="fullname"
         selectedKey={queryType}
         onSelectionChange={setQueryType}
       >
         <Item aria-label="Full name" key="fullname">
-          {/* <Icon color="white" as={FiUser} /> */}
-          Name
+          {formatMessage("components.clientSearch.name")}
         </Item>
         <Item aria-label="Phone number" key="mobilephone">
-          Phone number
+          {formatMessage("components.clientSearch.phonenumber")}
         </Item>
         <Item aria-label="Date of birth" key="dateofbirth">
-          Date of birth
+          {formatMessage("components.clientSearch.dateofbirth")}
         </Item>
         <Item aria-label="Passport number" key="passnumber">
-          Passport number
+          {formatMessage("components.clientSearch.passnumber")}
         </Item>
         <Item aria-label="INN" key="inn">
-          INN
+          {formatMessage("components.clientSearch.inn")}
         </Item>
         <Item aria-label="Login" key="login">
-          Login
+          {formatMessage("components.clientSearch.login")}
         </Item>
       </Select>
     </Stack>

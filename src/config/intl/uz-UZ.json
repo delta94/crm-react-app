@@ -1,0 +1,22 @@
+{
+  "pages.login.heading": "Welcome back!",
+  "pages.login.username": "Username",
+  "pages.login.password": "Password",
+  "pages.login.action": "Login",
+
+  "pages.clients.heading": "Clients",
+  "pages.clients.sendSMS": "Send SMS",
+
+  "components.clientsTable.name": "Full name",
+  "components.clientsTable.login": "Login",
+  "components.clientsTable.dateofbirth": "Date of birth",
+  "components.clientsTable.inn": "Phone number",
+  "components.clientsTable.passnumber": "Passport number",
+
+  "components.clientSearch.searchby": "Search by:",
+  "components.clientSearch.name": "Name",
+  "components.clientSearch.login": "Login",
+  "components.clientSearch.dateofbirth": "Date of birth",
+  "components.clientSearch.inn": "INN",
+  "components.clientSearch.passnumber": "Passport number"
+}
