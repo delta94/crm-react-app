@@ -208,10 +208,7 @@ const NestedNavLink: React.FC<NestedNavLinkProps> = ({
 
 const Sidebar = () => {
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
-  // const [selectedMenu, setSelectedMenu] = useState(menus[0]);
   const location = useLocation();
-  // console.log(location);
-
   const [selectedMenu, setSelectedMenu] = useState(flatMenu[0]);
 
   useEffect(() => {
@@ -221,15 +218,11 @@ const Sidebar = () => {
       setSelectedMenu(parent);
     }
   }, []);
-  console.log(selectedMenu);
   const childIds = selectedMenu.children.map((c) => c.key);
   const items = flatMenu.filter((item) => childIds.includes(item.key));
-  // console.log(childIds);
 
   const goBack = () => {
     const parent = flatMenu.find((menu) => menu.key === selectedMenu.parentKey);
-    console.log(parent);
-
     setSelectedMenu(parent);
   };
 
@@ -242,7 +235,31 @@ const Sidebar = () => {
             width: isOpen ? 320 : 60,
             transition: { duration: 0.21, ease: "easeInOut" },
           }}
-        />
+          style={{ position: "relative" }}
+        >
+          <IconButton
+            size="xs"
+            position="absolute"
+            right={0}
+            top="20px"
+            transform="translateX(50%)"
+            borderRadius="50%"
+            aria-label="Toggle submenu"
+            bg="gray.200"
+            onClick={onToggle}
+            zIndex={9}
+            icon={
+              <Icon
+                // @ts-ignore
+                as={FiChevronLeft}
+                style={{
+                  transform: `rotate(${isOpen ? "0deg" : "180deg"})`,
+                }}
+                boxSize={4}
+              />
+            }
+          />
+        </MotionBox>
         <Box
           position="fixed"
           top={0}
@@ -301,33 +318,7 @@ const Sidebar = () => {
               </Flex>
             </NavLink>
           </Box>
-          <IconButton
-            size="xs"
-            position="absolute"
-            right={0}
-            top="20px"
-            transform="translateX(50%)"
-            borderRadius="50%"
-            aria-label="Toggle submenu"
-            bg="gray.200"
-            onClick={onToggle}
-            zIndex={9}
-            icon={
-              <MotionIcon
-                // @ts-ignore
-                as={FiChevronLeft}
-                animate={{
-                  rotate: isOpen ? "0deg" : "180deg",
-                  transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                    type: "tween",
-                  },
-                }}
-                boxSize={4}
-              />
-            }
-          />
+
           <MotionBox
             overflow="hidden"
             borderRightWidth="1px"
