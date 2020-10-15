@@ -122,14 +122,13 @@ const Clients = () => {
   return (
     <Box>
       <SectionHeading mb={10}>Clients</SectionHeading>
-      <Stack w="100%" direction="row" spacing={4}>
+      <Stack mb={6} w="100%" direction="row" spacing={4}>
         <Search
           flex={1}
           query={query}
           setQuery={setQuery}
           queryType={queryType}
           setQueryType={setQueryType}
-          mb={6}
         />
         <Button
           onClick={sendSMS}
