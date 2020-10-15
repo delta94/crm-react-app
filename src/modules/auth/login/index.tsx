@@ -65,7 +65,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuth) {
-      history.push("/");
+      history.push("/clients");
     }
   }, [isAuth]);
   const formatMessage = useMessageFormatter(strings);

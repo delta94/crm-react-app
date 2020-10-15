@@ -1,5 +1,33 @@
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app).
+# OFB call center front
+
+## Tech stack
+
+React
+Redux / [Redux Toolkit](https://redux-toolkit.js.org/)
+[Chakra UI](https://next.chakra-ui.com)
+Typescript
+[React Aria](https://react-spectrum.adobe.com)
+[Axios](https://github.com/axios/axios)
+
+## How to navigate / Folder structure
+
+`src/components` - Reusable components that are used across the app. If a components needs more than more file to work properly or needs to be splitted into multiple sub-components then put them in a folder (e.g. `src/components/ComponentName`), otherwise just use a single file.
+
+`src/modules` - Modules of the app
+
+**Module** - are a big piece of the app (a.k.a. container or page). A module has a purpose (e.g. authentication, dashboard page, etc). It's recommended to name a module based on its purpose. A module folder can contain multiple files (e.g. sub-modules or any specific components/functions that are used by this module).
+
+`src/types` - Typescript types and anything related to it (e.g. custom types for 3rd packages or types for a global state).
+
+## State management
+
+We use Redux along with [`@reduxjs/toolkit`](https://redux-toolkit.js.org/) for global state management. And [React hooks](https://reactjs.org/docs/hooks-intro.html) for local states. If not familiar with any of them, please familiarize yourself with them.
+
+## Table component
+
+We use `@react-aria/table` for building a custom table component. The main goal of using it is to make our components accessible. At the moment of writing this readme, there's no official documentation for `@react-aria/table`. So we recommend cloning [`react-spectrum`'s github repo](https://github.com/adobe/react-spectrum) into your machine and run its storybook locally. Stories (a.k.a. examples of the component) are located [here](https://github.com/adobe/react-spectrum/blob/main/packages/%40react-spectrum/table/stories/Table.stories.tsx). If you have any question or problems with it, please [open an issue](https://github.com/adobe/react-spectrum/issues/new/choose) or search for [existing issues](https://github.com/adobe/react-spectrum/issues).
+
+**Happy hacking 🚀🔥😎**
 
 ## Available Scripts
 
@@ -12,13 +40,6 @@ Runs the app in the development mode.<br /> Open
 
 The page will reload if you make edits.<br /> You will also see any lint errors
 in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br /> See the section
-about
-[running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
 
 ### `yarn build`
 
