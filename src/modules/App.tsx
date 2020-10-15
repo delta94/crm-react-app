@@ -11,6 +11,12 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from "components/PrivateRoute";
 import theme from "config/theme";
 import { I18nProvider } from "@react-aria/i18n";
+import { useAxios } from "helpers/api";
+
+const SetupAxios = () => {
+  useAxios();
+  return null;
+};
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -19,6 +25,7 @@ export const App = () => (
       <Router>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
+            <SetupAxios />
             <Switch>
               <Route path="/login">
                 <Login />

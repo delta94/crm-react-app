@@ -283,4 +283,7 @@ function Table<T extends object>(
   );
 }
 
+export { TableHeader, Row, TableBody, Cell } from "@react-stately/table";
+export { default as Column } from "./Column";
+
 export default forwardRef(Table);

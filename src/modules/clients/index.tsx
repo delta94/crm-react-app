@@ -5,12 +5,11 @@ import {
   Icon,
   Spinner,
   Stack,
-  Text,
   useToast,
 } from "@chakra-ui/core";
 import { useMessageFormatter } from "@react-aria/i18n";
 import { Selection } from "@react-types/shared";
-import axios from "axios";
+import { axios } from "helpers/api";
 import ClientsTable from "components/ClientsTable";
 import EmptyState from "components/EmptyState";
 import Search from "components/Search";
@@ -21,10 +20,7 @@ import React, { useEffect, useState } from "react";
 import { FiMail } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { userSelector } from "store/auth/selectors";
-import useSWR, { mutate } from "swr";
 import { search } from "./search";
-
-const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const Clients = () => {
   const [loading, setLoading] = useState(false);
@@ -48,7 +44,7 @@ const Clients = () => {
       //   }
       // );
 
-      const res = await search(`http://localhost:8081/api/client`, {
+      const res = await search(`${API_URL}/api/client`, {
         method: "POST",
         data: { [queryType]: query },
         headers: {
@@ -82,23 +78,14 @@ const Clients = () => {
     // @ts-ignore
     const client = data.find((c) => c.extid === Array.from(selectedKeys)[0]);
 
-    const res = await axios.post(
-      "http://localhost:8081" + "/api/sms",
-      {
-        recipient: client.mobilephone,
-        text: `Rekvizity dostupa v Internet-Bank. Vash login: ${client.login}. ? / ?Internet-bankga kirish uchun rekvizitlar. Sizning login: ${client.login}`,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + user.token,
-        },
-      }
-    );
+    const res = await axios.post("/api/sms", {
+      recipient: client.mobilephone,
+      text: `Rekvizity dostupa v Internet-Bank. Vash login: ${client.login}. ? / ?Internet-bankga kirish uchun rekvizitlar. Sizning login: ${client.login}`,
+    });
 
     if (res.status === 200) {
       toast({
         title: "Success sent",
-        // description: "",
         status: "success",
         duration: 4000,
         isClosable: true,

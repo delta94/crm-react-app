@@ -1,15 +1,8 @@
 import { Box, Flex } from "@chakra-ui/core";
 import Sidebar from "components/Sidebar";
 import React, { useEffect } from "react";
-
 import Clients from "modules/clients";
-import {
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-  useRouteMatch,
-} from "react-router-dom";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Payments from "modules/payments";
 
 const Dashboard = () => {

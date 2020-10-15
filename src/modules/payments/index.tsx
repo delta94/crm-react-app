@@ -8,105 +8,24 @@ import {
   InputLeftElement,
   Spinner,
   Stack,
-  Tag,
-  Text,
   Tooltip,
   useToast,
 } from "@chakra-ui/core";
-import { Cell, Row, TableBody, TableHeader } from "@react-stately/table";
-import axios from "axios";
+import { axios } from "helpers/api";
 import EmptyState from "components/EmptyState";
 import SectionHeading from "components/SectionHeading";
-import Table from "components/Table";
-import Column from "components/Table/Column";
 import dayjs from "dayjs";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { FiCalendar, FiCheck, FiDownload } from "react-icons/fi";
-import { useSelector } from "react-redux";
-import { userSelector } from "store/auth/selectors";
-
-interface Item {
-  id: string;
-  providerid: string;
-  withdraw: number;
-  reward: number;
-  purpose: string;
-  createdon: string;
-  state: string;
-}
-
-interface Props {
-  items: Item[];
-}
-
-const PaymentsTable: React.FC<Props> = (props) => {
-  const tableRef = useRef(null);
-
-  return (
-    <Table
-      aria-label="Table with static contents"
-      selectionMode="none"
-      width={1000}
-      height={400}
-      // sortDescriptor={list.sortDescriptor}
-      // onSortChange={list.sort}
-      ref={tableRef}
-    >
-      <TableHeader>
-        <Column key="purpose" allowsSorting={false}>
-          Purpose
-        </Column>
-        <Column align="end" key="withdraw" width={120} allowsSorting={false}>
-          Widthdraw
-        </Column>
-        <Column
-          align="end"
-          key="reward"
-          width={120}
-          isRowHeader
-          allowsSorting={false}
-        >
-          Reward
-        </Column>
-        <Column key="createdon" width={150} allowsSorting={false}>
-          Date
-        </Column>
-        <Column key="state" width={150} allowsSorting={false}>
-          State
-        </Column>
-      </TableHeader>
-      <TableBody items={props.items}>
-        {(item) => (
-          <Row key={item.id}>
-            {(key) => (
-              <Cell>
-                {key === "createdon" ? (
-                  dayjs(item[key]).format("YYYY-MM-DD").toString()
-                ) : key === "state" ? (
-                  <Tag
-                    colorScheme={item[key] === "CONFIRMED" ? "green" : "yellow"}
-                  >
-                    {item[key]}
-                  </Tag>
-                ) : (
-                  item[key]
-                )}
-              </Cell>
-            )}
-          </Row>
-        )}
-      </TableBody>
-    </Table>
-  );
-};
+import { PaynetTransaction } from "MyTypes";
+import PaynetTable from "components/paynetTable";
 
 const Payments = () => {
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  const [data, setData] = useState<Item[]>([]);
+  const [data, setData] = useState<PaynetTransaction[]>([]);
   const [date, setDate] = useState("");
   const isDateValid = dayjs(date).isValid();
-  const user = useSelector(userSelector);
   const toast = useToast();
   const canConfirm = data.some((t) => t.state === "CREATED");
 
@@ -114,10 +33,8 @@ const Payments = () => {
     setConfirming(true);
     let res;
     try {
-      res = await axios(`http://localhost:8081/api/bss-paynet-set/${date}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-        method: "PUT",
-      });
+      res = await axios.put(`/api/bss-paynet-set/${date}`);
+
       if (res.status === 200) {
         toast({
           title: "Successfull confirmed",
@@ -150,12 +67,7 @@ const Payments = () => {
     setLoading(true);
 
     const res = await axios(
-      `http://localhost:8081/api/bss-paynet/${dayjs(date)
-        .format("YYYY-MM-DD")
-        .toString()}`,
-      {
-        headers: { Authorization: `Bearer ${user.token}` },
-      }
+      `/api/bss-paynet/${dayjs(date).format("YYYY-MM-DD").toString()}`
     );
     // const res = await axios(
     //   `https://5f7ebbb0094b670016b76686.mockapi.io/api/payments`
@@ -247,7 +159,7 @@ const Payments = () => {
           </Flex>
         )}
 
-        {!!data.length && <PaymentsTable items={data} />}
+        {!!data.length && <PaynetTable items={data} />}
       </Box>
     </Box>
   );

@@ -24,4 +24,14 @@ declare module "MyTypes" {
   export type User = {
     token: string;
   };
+
+  export type PaynetTransaction = {
+    id: string;
+    providerid: string;
+    withdraw: number;
+    reward: number;
+    purpose: string;
+    createdon: string;
+    state: string;
+  };
 }
