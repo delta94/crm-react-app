@@ -46,6 +46,7 @@ const Search: React.FC<Props> = ({
           bg="white"
           color="gray.600"
           placeholder="Type to search"
+          type={queryType === "dateofbirth" ? "date" : "text"}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

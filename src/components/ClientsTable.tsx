@@ -30,7 +30,7 @@ const ClientsTable: React.FC<Props> = (props) => {
       aria-label="Table with static contents"
       selectionMode="single"
       width={1000}
-      height={400}
+      height={500}
       // sortDescriptor={list.sortDescriptor}
       // onSortChange={list.sort}
       ref={tableRef}
@@ -40,7 +40,7 @@ const ClientsTable: React.FC<Props> = (props) => {
         <Column key="fullname" allowsSorting={false}>
           Name
         </Column>
-        <Column key="login" width={140} allowsSorting={false}>
+        <Column key="login" width={120} allowsSorting={false}>
           Login
         </Column>
         <Column key="dateofbirth" width={140} isRowHeader allowsSorting={false}>
@@ -49,10 +49,10 @@ const ClientsTable: React.FC<Props> = (props) => {
         <Column key="mobilephone" width={140} allowsSorting={false}>
           Phone number
         </Column>
-        <Column key="inn" width={150} allowsSorting={false}>
+        <Column key="inn" width={120} allowsSorting={false}>
           INN
         </Column>
-        <Column key="passnumber" width={120} allowsSorting={false}>
+        <Column key="passnumber" width={150} allowsSorting={false}>
           Passport number
         </Column>
       </TableHeader>

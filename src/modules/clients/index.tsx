@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  Icon,
   Spinner,
   Stack,
   Text,
@@ -15,6 +16,7 @@ import Search from "components/Search";
 import SectionHeading from "components/SectionHeading";
 import { API_URL } from "helpers/api";
 import React, { useEffect, useState } from "react";
+import { FiMail } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { userSelector } from "store/auth/selectors";
 import useSWR, { mutate } from "swr";
@@ -141,6 +143,7 @@ const Clients = () => {
           mt={8}
           ml="auto"
           isDisabled={!Array.from(selectedKeys).length}
+          leftIcon={<Icon as={FiMail} />}
         >
           Send SMS
         </Button>
