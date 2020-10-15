@@ -3,10 +3,15 @@
 ## Tech stack
 
 React
+
 Redux / [Redux Toolkit](https://redux-toolkit.js.org/)
+
 [Chakra UI](https://next.chakra-ui.com)
+
 Typescript
+
 [React Aria](https://react-spectrum.adobe.com)
+
 [Axios](https://github.com/axios/axios)
 
 ## How to navigate / Folder structure
@@ -15,7 +20,7 @@ Typescript
 
 `src/modules` - Modules of the app
 
-**Module** - are a big piece of the app (a.k.a. container or page). A module has a purpose (e.g. authentication, dashboard page, etc). It's recommended to name a module based on its purpose. A module folder can contain multiple files (e.g. sub-modules or any specific components/functions that are used by this module).
+**Module** - is a big piece of the app (a.k.a. container or page). A module has a purpose (e.g. authentication, dashboard page, etc). It's recommended to name a module based on its purpose. A module folder can contain multiple files (e.g. sub-modules or any specific components/functions that are used by this module).
 
 `src/types` - Typescript types and anything related to it (e.g. custom types for 3rd packages or types for a global state).
 
