@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Text } from "@chakra-ui/core";
+import { Box, Button, Flex, Icon, SlideFade, Text } from "@chakra-ui/core";
 import { useButton } from "@react-aria/button";
 import { AriaSelectOptions, HiddenSelect, useSelect } from "@react-aria/select";
 import { useSelectState } from "@react-stately/select";
@@ -50,9 +50,19 @@ const Select = (props: AriaSelectOptions<{}>) => {
           color="gray.700"
           aria-hidden="true"
           as={FiChevronDown}
+          transform={`rotate(${state.isOpen ? 180 : 0}deg)`}
+          transition="transform .2s ease-in-out"
         />
       </Button>
-      {state.isOpen && <ListBoxPopup {...menuProps} state={state} />}
+      <SlideFade initialOffset="6px" in={state.isOpen}>
+        {(styles) => (
+          <ListBoxPopup
+            {...menuProps}
+            style={{ ...styles, ...menuProps.style }}
+            state={state}
+          />
+        )}
+      </SlideFade>
     </Box>
   );
 };

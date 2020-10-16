@@ -1,4 +1,12 @@
-import { Box, Button, Divider, Flex, Icon, Text } from "@chakra-ui/core";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Icon,
+  SlideFade,
+  Text,
+} from "@chakra-ui/core";
 import { useButton } from "@react-aria/button";
 import { AriaSelectOptions, HiddenSelect, useSelect } from "@react-aria/select";
 import { useSelectState } from "@react-stately/select";
@@ -80,14 +88,20 @@ const ComboButton = (
             color="current"
             aria-hidden="true"
             as={FiChevronDown}
-            style={{
-              transform: `rotate(${state.isOpen ? 180 : 0}deg)`,
-              transition: "transform .2s ease-in-out",
-            }}
+            transform={`rotate(${state.isOpen ? 180 : 0}deg)`}
+            transition="transform .2s ease-in-out"
           />
         </Button>
       </Flex>
-      {state.isOpen && <ListBoxPopup {...menuProps} state={state} />}
+      <SlideFade initialOffset="6px" in={state.isOpen}>
+        {(styles) => (
+          <ListBoxPopup
+            {...menuProps}
+            style={{ ...styles, ...menuProps.style }}
+            state={state}
+          />
+        )}
+      </SlideFade>
     </Box>
   );
 };
