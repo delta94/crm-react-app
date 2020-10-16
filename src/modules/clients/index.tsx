@@ -17,10 +17,17 @@ import SectionHeading from "components/SectionHeading";
 import strings from "config/strings";
 import { API_URL } from "helpers/api";
 import React, { useEffect, useState } from "react";
-import { FiMail } from "react-icons/fi";
+import { FiMail, FiPhone } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { userSelector } from "store/auth/selectors";
 import { search } from "./search";
+import ComboButton from "components/ComboButton";
+import { Item } from "@react-stately/collections";
+
+const actionIcons = {
+  sendLogin: FiMail,
+  changePhoneNumber: FiPhone,
+};
 
 const Clients = () => {
   const [loading, setLoading] = useState(false);
@@ -36,21 +43,21 @@ const Clients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       setLoading(true);
-      // const res = await search(
-      //   `https://5f7ebbb0094b670016b76686.mockapi.io/api/clients`,
-      //   {
-      //     method: "get",
-      //     // data: { [queryType]: query },
-      //   }
-      // );
+      const res = await search(
+        `https://5f7ebbb0094b670016b76686.mockapi.io/api/clients`,
+        {
+          method: "get",
+          // data: { [queryType]: query },
+        }
+      );
 
-      const res = await search(`${API_URL}/api/client`, {
-        method: "POST",
-        data: { [queryType]: query },
-        headers: {
-          Authorization: "Bearer " + user.token,
-        },
-      });
+      // const res = await search(`${API_URL}/api/client`, {
+      //   method: "POST",
+      //   data: { [queryType]: query },
+      //   headers: {
+      //     Authorization: "Bearer " + user.token,
+      //   },
+      // });
 
       setLoading(false);
       setData(
@@ -114,6 +121,23 @@ const Clients = () => {
     setSendingSMS(false);
   };
 
+  const [actionType, setActionType] = useState("sendLogin");
+
+  const changePhoneNumber = () => {
+    toast({
+      title: "Successfully changed",
+      status: "success",
+      duration: 4000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+  };
+
+  const actions = {
+    sendLogin: sendSMS,
+    changePhoneNumber: changePhoneNumber,
+  };
+
   return (
     <Box>
       <SectionHeading mb={10}>
@@ -127,18 +151,25 @@ const Clients = () => {
           queryType={queryType}
           setQueryType={setQueryType}
         />
-        <Button
-          onClick={sendSMS}
-          isLoading={sendingSMS}
-          w="200px"
-          colorScheme="blue"
-          mt={8}
-          ml="auto"
+
+        <ComboButton
+          onSelectionChange={(key: string) => setActionType(key)}
+          selectedKey={actionType}
+          leftIcon={<Icon as={actionIcons[actionType]} />}
+          onClick={actions[actionType]}
           isDisabled={!Array.from(selectedKeys).length}
-          leftIcon={<Icon as={FiMail} />}
+          isLoading={sendingSMS}
         >
-          {formatMessage("pages.clients.sendSMS")}
-        </Button>
+          <Item
+            aria-label={formatMessage("pages.clients.sendSMS")}
+            key="sendLogin"
+          >
+            {formatMessage("pages.clients.sendSMS")}
+          </Item>
+          <Item aria-label="Change phone number" key="changePhoneNumber">
+            Change phone number
+          </Item>
+        </ComboButton>
       </Stack>
       <Box pos="relative">
         {!data.length && !query.length && (

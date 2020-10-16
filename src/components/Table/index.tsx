@@ -251,6 +251,13 @@ function Table<T extends object>(
       borderStyle="solid"
       borderWidth="1px"
       fontSize="sm"
+      // @ts-ignore
+      css={{
+        ".table-cellContents": {
+          whiteSpace:
+            props.overflowMode === "wrap" ? "normal !important" : "nowrap",
+        },
+      }}
     >
       <TableContext.Provider value={state}>
         <TableVirtualizer
@@ -268,7 +275,7 @@ function Table<T extends object>(
           style={{
             display: "flex",
             flexDirection: "column",
-            // width: props.width,
+            width: props.width,
             height: props.height,
           }}
           layout={layout}

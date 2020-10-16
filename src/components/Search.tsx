@@ -56,7 +56,6 @@ const Search: React.FC<Props> = ({
       </InputGroup>
       <Select
         label={formatMessage("components.clientSearch.searchBy")}
-        defaultSelectedKey="fullname"
         selectedKey={queryType}
         onSelectionChange={setQueryType}
       >

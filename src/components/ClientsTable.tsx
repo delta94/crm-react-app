@@ -29,8 +29,10 @@ const ClientsTable: React.FC<Props> = (props) => {
     <Table
       aria-label="Table with static contents"
       selectionMode="single"
-      width={1000}
+      // width={600}
       height={500}
+      overflowMode="wrap"
+      density="spacious"
       // sortDescriptor={list.sortDescriptor}
       // onSortChange={list.sort}
       ref={tableRef}
@@ -46,7 +48,7 @@ const ClientsTable: React.FC<Props> = (props) => {
         <Column key="dateofbirth" width={140} isRowHeader allowsSorting={false}>
           {formatMessage("components.clientsTable.dateofbirth")}
         </Column>
-        <Column key="mobilephone" width={140} allowsSorting={false}>
+        {/* <Column key="mobilephone" width={140} allowsSorting={false}>
           {formatMessage("components.clientsTable.phonenumber")}
         </Column>
         <Column key="inn" width={120} allowsSorting={false}>
@@ -54,10 +56,23 @@ const ClientsTable: React.FC<Props> = (props) => {
         </Column>
         <Column key="passnumber" width={150} allowsSorting={false}>
           {formatMessage("components.clientsTable.passnumber")}
-        </Column>
+        </Column> */}
       </TableHeader>
-      <TableBody items={props.items}>
-        {(item) => (
+      <TableBody>
+        <Row>
+          <Cell>
+            2018 Proposal with very very very very very very long long long long
+            long filename
+          </Cell>
+          <Cell>PDF</Cell>
+          <Cell>214 KB</Cell>
+        </Row>
+        <Row>
+          <Cell>Budget</Cell>
+          <Cell>XLS</Cell>
+          <Cell>120 KB</Cell>
+        </Row>
+        {/* {(item) => (
           <Row key={item.extid}>
             {(key) => (
               <Cell>
@@ -69,7 +84,7 @@ const ClientsTable: React.FC<Props> = (props) => {
               </Cell>
             )}
           </Row>
-        )}
+        )} */}
       </TableBody>
     </Table>
   );

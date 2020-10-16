@@ -13,10 +13,13 @@ const TableCellBase = ({ cell, cellRef, ...otherProps }) => {
       <Box
         {...otherProps}
         px={4}
+        py={2}
         width="100%"
         height="100%"
         display="flex"
         alignItems="center"
+        position="relative"
+        boxSizing="border-box"
         justifyContent={
           align === "center"
             ? "center"
@@ -47,7 +50,13 @@ const TableCellBase = ({ cell, cellRef, ...otherProps }) => {
         // }
       >
         <span
-        // className={classNames(styles, 'spectrum-Table-cellContents')}
+          // className={classNames(styles, 'spectrum-Table-cellContents')}
+          className="table-cellContents"
+          style={{
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+          }}
         >
           {cell.rendered}
         </span>
