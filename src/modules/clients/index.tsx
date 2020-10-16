@@ -1,10 +1,25 @@
 import {
   Box,
   Button,
+  Fade,
   Flex,
+  FormControl,
+  FormLabel,
   Icon,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  SlideFade,
   Spinner,
   Stack,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/core";
 import { useMessageFormatter } from "@react-aria/i18n";
@@ -39,6 +54,8 @@ const Clients = () => {
   const [sendingSMS, setSendingSMS] = useState(false);
   const toast = useToast();
   const formatMessage = useMessageFormatter(strings);
+  const [actionType, setActionType] = useState("sendLogin");
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -61,14 +78,16 @@ const Clients = () => {
 
       setLoading(false);
       setData(
-        res?.data?.clients
-          ?.filter((c) => c.extid !== null && c.mobilephone !== null)
-          .sort(
-            (
-              a: any,
-              b: any //@ts-ignore
-            ) => new Date(b.dateofbirth) - new Date(a.dateofbirth)
-          ) || []
+        res?.data?.clients?.filter(
+          (c) => c.extid !== null && c.mobilephone !== null
+        ) ||
+          // .sort(
+          //   (
+          //     a: any,
+          //     b: any //@ts-ignore
+          //   ) => new Date(b.dateofbirth) - new Date(a.dateofbirth)
+          // )
+          []
       );
     };
 
@@ -121,8 +140,6 @@ const Clients = () => {
     setSendingSMS(false);
   };
 
-  const [actionType, setActionType] = useState("sendLogin");
-
   const changePhoneNumber = () => {
     toast({
       title: "Successfully changed",
@@ -131,18 +148,55 @@ const Clients = () => {
       isClosable: true,
       position: "bottom-right",
     });
+    onClose();
   };
 
   const actions = {
     sendLogin: sendSMS,
-    changePhoneNumber: changePhoneNumber,
+    changePhoneNumber: onOpen,
   };
 
   return (
     <Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay>
+          <SlideFade timeout={150} in={isOpen} unmountOnExit={false}>
+            {(styles) => (
+              <ModalContent style={styles}>
+                <ModalHeader>Update phone number</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <FormControl id="newPhoneNumber">
+                    <FormLabel>New phone number</FormLabel>
+                    <InputGroup>
+                      <InputLeftAddon children="+998" />
+                      <Input
+                        type="phone"
+                        borderLeftRadius="0"
+                        placeholder="phone number"
+                      />
+                    </InputGroup>
+                  </FormControl>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button variant="ghost" mr={3} onClick={onClose}>
+                    Close
+                  </Button>
+                  <Button onClick={changePhoneNumber} colorScheme="blue">
+                    Update
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            )}
+          </SlideFade>
+        </ModalOverlay>
+      </Modal>
+
       <SectionHeading mb={10}>
         {formatMessage("pages.clients.heading")}
       </SectionHeading>
+
       <Stack mb={6} w="100%" direction="row" spacing={4}>
         <Search
           flex={1}
@@ -171,6 +225,7 @@ const Clients = () => {
           </Item>
         </ComboButton>
       </Stack>
+
       <Box pos="relative">
         {!data.length && !query.length && (
           <EmptyState text={formatMessage("pages.clients.empty")} />
