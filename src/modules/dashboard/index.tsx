@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import Clients from "modules/clients";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import Payments from "modules/payments";
+import User from "modules/user";
 
 const Dashboard = () => {
   const history = useHistory();
@@ -32,6 +33,9 @@ const Dashboard = () => {
             </Route>
             <Route path="/payments">
               <Payments />
+            </Route>
+            <Route path="/user">
+              <User />
             </Route>
           </Switch>
         </Box>

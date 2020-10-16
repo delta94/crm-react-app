@@ -1,4 +1,4 @@
-import { FiCreditCard, FiUsers } from "react-icons/fi";
+import { FiCreditCard, FiUser, FiUsers } from "react-icons/fi";
 
 // TODO: Use component based method like chakra-ui, not object based
 const menus = [
@@ -70,6 +70,12 @@ const menus = [
         url: "/not-payments/payments",
       },
     ],
+  },
+  {
+    key: "user",
+    url: "/user",
+    label: "User",
+    icon: FiUser,
   },
 ];
 

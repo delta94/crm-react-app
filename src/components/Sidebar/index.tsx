@@ -160,6 +160,7 @@ const Sidebar = () => {
           }
         />
       </MotionBox>
+
       <Box position="fixed" top={0} left={0} w="320px" height="100vh" d="flex">
         <Box
           borderRightWidth="1px"
@@ -172,29 +173,32 @@ const Sidebar = () => {
           w="60px"
         >
           <Stack px="10px">
-            {menus.map((item: any, key) => (
-              <NavLink
-                onClick={(e) => {
-                  e.preventDefault();
-                  setSelectedMenu(item);
-                  if (!isOpen) {
-                    onToggle();
-                  }
-                }}
-                key={key}
-                to={item.url}
-              >
-                <Tooltip ml={1} placement="right" label={item.label}>
-                  <span>
-                    <Icon as={item.icon} boxSize={5} />
-                  </span>
-                </Tooltip>
-              </NavLink>
-            ))}
+            {menus.map((item: any, key) => {
+              if (item.key === "user") {
+                return null;
+              }
+              return (
+                <NavLink
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedMenu(item);
+                    if (!isOpen) {
+                      onToggle();
+                    }
+                  }}
+                  key={key}
+                  to={item.url}
+                >
+                  <Tooltip ml={1} placement="right" label={item.label}>
+                    <span>
+                      <Icon as={item.icon} boxSize={5} />
+                    </span>
+                  </Tooltip>
+                </NavLink>
+              );
+            })}
           </Stack>
-
           <Divider mt="auto" />
-
           <NavLink
             _hover={{ bg: "gray.100" }}
             transition="all .1s ease-in-out"
@@ -228,11 +232,7 @@ const Sidebar = () => {
           whiteSpace="nowrap"
           animate={{
             width: isOpen ? 260 : 0,
-            transition: {
-              duration: 0.21,
-              ease: "easeInOut",
-              type: "tween",
-            },
+            transition: { duration: 0.21, ease: "easeInOut" },
           }}
         >
           {!!selectedMenu.children && !!selectedMenu.parentKey ? (
