@@ -15,7 +15,7 @@ const PaynetTable: React.FC<Props> = (props) => {
     <Table
       aria-label="Table with static contents"
       selectionMode="none"
-      width={1000}
+      // width={1000}
       height={400}
       // sortDescriptor={list.sortDescriptor}
       // onSortChange={list.sort}
