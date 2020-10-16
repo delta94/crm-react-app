@@ -10,7 +10,9 @@ export const axios = Axios.create({ baseURL: API_URL });
 export const useAxios = () => {
   const user = useSelector(userSelector);
 
-  axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+  if (user.token !== null) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${user.token}`;
+  }
 
   return;
 };
