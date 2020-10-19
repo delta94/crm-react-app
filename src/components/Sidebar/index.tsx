@@ -40,8 +40,6 @@ const flatten = (arr: any[], parentKey: string = ""): any[] => {
   return flattened;
 };
 
-const flatMenu = flatten(menus);
-
 interface NavLinkProps extends BoxProps {
   to: string;
 }
@@ -106,7 +104,10 @@ const NestedNavLink: React.FC<NestedNavLinkProps> = ({
   );
 };
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+  // Call props here ...
+  const flatMenu = flatten(menus);
+
   const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
   const location = useLocation();
   const [selectedMenu, setSelectedMenu] = useState(flatMenu[0]);
@@ -119,6 +120,7 @@ const Sidebar = () => {
     }
   }, []);
 
+  // children => menuItems
   const childIds = selectedMenu.children.map((c) => c.key);
   const items = flatMenu.filter((item) => childIds.includes(item.key));
 

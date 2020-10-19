@@ -25,6 +25,14 @@ declare module "MyTypes" {
     token: string;
   };
 
+  export type Language = {
+    language: string;
+  };
+
+  export type Menus = {
+    data: object[];
+  };
+
   export type PaynetTransaction = {
     id: string;
     providerid: string;
