@@ -1,7 +1,6 @@
 import * as React from "react";
 import "focus-visible";
 import { ChakraProvider, CSSReset } from "@chakra-ui/core";
-import { ColorModeSwitcher } from "../components/ColorModeSwitcher";
 import { Provider } from "react-redux";
 import { store, persistor } from "store";
 import { PersistGate } from "redux-persist/integration/react";

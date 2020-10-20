@@ -67,6 +67,7 @@ const Login = () => {
     if (isAuth) {
       history.push("/clients");
     }
+    // eslint-disable-next-line
   }, [isAuth]);
   const formatMessage = useMessageFormatter(strings);
 

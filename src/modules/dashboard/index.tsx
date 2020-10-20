@@ -38,7 +38,7 @@ const Dashboard = () => {
     if (isHome) {
       history.replace("/clients");
     }
-  }, []);
+  }, []); // eslint-disable-line
 
   return (
     <Flex>

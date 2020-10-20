@@ -1,8 +1,4 @@
 import axios, { AxiosRequestConfig } from "axios";
-// import { axios } from "helpers/api";
-
-const resources = {};
-
 const makeRequestCreator = () => {
   let cancel;
 
@@ -14,10 +10,6 @@ const makeRequestCreator = () => {
     // Create a new CancelToken
     cancel = axios.CancelToken.source();
     try {
-      // if (resources[query]) {
-      //   // Return result if it exists
-      //   return resources[query];
-      // }
       const res = await axios(query, { ...options, cancelToken: cancel.token });
 
       const result = res;

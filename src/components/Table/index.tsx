@@ -20,7 +20,7 @@ import TableRowGroup from "./TableRowGroup";
 import TableRowHeader from "./TableRowHeader";
 import TableSelectAllCell from "./TableSelectAllCell";
 import { TableContext } from "./useTableContext";
-import { TableState, useTableState } from "@react-stately/table";
+import { useTableState } from "@react-stately/table";
 import { TableLayout } from "@react-stately/layout";
 import { DOMRef, DOMRefValue } from "@react-types/shared";
 import TableColumnHeader from "./TableColumnHeader";
@@ -173,14 +173,6 @@ function Table<T extends object>(
         key={reusableView.key}
         reusableView={reusableView}
         parent={parent}
-        // className={classNames(
-        //   styles,
-        //   "spectrum-Table-cellWrapper",
-        //   classNames(stylesOverrides, {
-        //     "react-spectrum-Table-cellWrapper": !reusableView.layoutInfo
-        //       .estimatedSize,
-        //   })
-        // )}
       />
     );
   };
@@ -262,16 +254,6 @@ function Table<T extends object>(
       <TableContext.Provider value={state}>
         <TableVirtualizer
           {...gridProps}
-          // className={classNames(
-          //   styles,
-          //   "spectrum-Table",
-          //   `spectrum-Table--${density}`,
-          //   {
-          //     "spectrum-Table--quiet": isQuiet,
-          //     "spectrum-Table--wrap": props.overflowMode === "wrap",
-          //   },
-          //   classNames(stylesOverrides, "react-spectrum-Table")
-          // )}
           style={{
             display: "flex",
             flexDirection: "column",

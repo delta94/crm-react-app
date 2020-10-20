@@ -26,7 +26,7 @@ const TableRow = ({ item, children, ...otherProps }) => {
     isFocusVisible: isFocusVisibleWithin,
     focusProps: focusWithinProps,
   } = useFocusRing({ within: true });
-  let { isFocusVisible, focusProps } = useFocusRing();
+  let { focusProps } = useFocusRing();
   let { hoverProps, isHovered } = useHover({});
   let props = mergeProps(
     rowProps,
@@ -40,11 +40,6 @@ const TableRow = ({ item, children, ...otherProps }) => {
     <Box
       {...props}
       ref={ref}
-      // _even={{ bg: "gray.50" }}
-      // bg={isHovered?'gray.100':''}
-      // _hover={{
-      //   bg: "blue.50",
-      // }}
       bg={
         isFocusVisibleWithin || isHovered
           ? "blue.50"
@@ -52,18 +47,6 @@ const TableRow = ({ item, children, ...otherProps }) => {
           ? "gray.50"
           : "white"
       }
-      // className={
-      //   classNames(
-      //     styles,
-      //     'spectrum-Table-row',
-      //     {
-      //       'is-selected': isSelected,
-      //       'is-focused': isFocusVisibleWithin,
-      //       'focus-ring': isFocusVisible,
-      //       'is-hovered': isHovered
-      //     }
-      //   )
-      // }
     >
       {children}
     </Box>

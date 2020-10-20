@@ -26,7 +26,7 @@ const TableSelectAllCell = ({ column }) => {
   let {
     checkboxProps: { isSelected, onChange, ...checkboxProps },
   } = useTableSelectAllCheckbox(state);
-  let { hoverProps, isHovered } = useHover({});
+  let { hoverProps } = useHover({});
 
   return (
     <Flex

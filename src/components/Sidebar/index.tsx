@@ -118,7 +118,7 @@ const Sidebar = (props) => {
     if (parent) {
       setSelectedMenu(parent);
     }
-  }, []);
+  }, []); // eslint-disable-line
 
   // children => menuItems
   const childIds = selectedMenu.children.map((c) => c.key);
@@ -132,7 +132,7 @@ const Sidebar = (props) => {
   return (
     <AnimatePresence initial={false}>
       <MotionBox
-        layout
+        key="animate-presence-child_1"
         animate={{
           width: isOpen ? 320 : 60,
           transition: { duration: 0.21, ease: "easeInOut" },
@@ -163,7 +163,10 @@ const Sidebar = (props) => {
         />
       </MotionBox>
 
-      <Box position="fixed" top={0} left={0} w="320px" height="100vh" d="flex">
+      <Box
+        key="animate-presence-child_2"
+        position="fixed" top={0} left={0} 
+        w="320px" height="100vh" d="flex">
         <Box
           borderRightWidth="1px"
           borderRightColor="gray.200"

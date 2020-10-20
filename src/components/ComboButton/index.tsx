@@ -25,7 +25,7 @@ const ComboButton = (
 
   // Get props for child elements from useSelect
   let ref = React.useRef();
-  let { labelProps, triggerProps, valueProps, menuProps } = useSelect(
+  let { triggerProps, valueProps, menuProps } = useSelect(
     props,
     state,
     ref
@@ -36,7 +36,6 @@ const ComboButton = (
 
   return (
     <Box display="inline-block" position="relative">
-      {/* <div {...labelProps}>{props.label}</div> */}
       <HiddenSelect state={state} triggerRef={ref} label={props.label} />
       <Flex>
         <Button

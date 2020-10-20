@@ -22,11 +22,10 @@ const TableColumnHeader = ({ column }) => {
   );
 
   let { align, ...columnProps } = column.props as SpectrumColumnProps<unknown>;
-  let { hoverProps, isHovered } = useHover({});
+  let { hoverProps } = useHover({});
 
   const isCol = state.sortDescriptor?.column === column.key;
   const isDesc = isCol && state.sortDescriptor?.direction === "descending";
-  const isAsc = isCol && state.sortDescriptor?.direction === "ascending";
 
   return (
     <FocusRing>

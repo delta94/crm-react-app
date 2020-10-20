@@ -5,7 +5,6 @@ import { isAuthenticatedSelector } from "store/auth/selectors";
 
 const PrivateRoute = ({ children, ...rest }: RouteProps) => {
   const isAuth = useSelector(isAuthenticatedSelector);
-  console.log(isAuth);
 
   return (
     <Route

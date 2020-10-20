@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Fade,
   Flex,
   FormControl,
   FormLabel,
@@ -60,14 +59,6 @@ const Clients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       setLoading(true);
-      // const res = await search(
-      //   `https://5f7ebbb0094b670016b76686.mockapi.io/api/clients`,
-      //   {
-      //     method: "get",
-      //     // data: { [queryType]: query },
-      //   }
-      // );
-
       const res = await search(`${API_URL}/api/client`, {
         method: "POST",
         data: { [queryType]: query },
@@ -80,14 +71,7 @@ const Clients = () => {
       setData(
         res?.data?.clients?.filter(
           (c) => c.extid !== null && c.mobilephone !== null
-        ) ||
-          // .sort(
-          //   (
-          //     a: any,
-          //     b: any //@ts-ignore
-          //   ) => new Date(b.dateofbirth) - new Date(a.dateofbirth)
-          // )
-          []
+        ) || []
       );
     };
 
@@ -97,7 +81,7 @@ const Clients = () => {
       setData([]);
       setSelectedKeys(new Set());
     }
-  }, [queryType, query]);
+  }, [queryType, query, user.token]);
 
   const sendSMS = async () => {
     setSendingSMS(true);
