@@ -38,44 +38,12 @@ const menus = [
     url: "/payments",
     children: [
       {
-        key: "payments.lol",
+        key: "payments.internal",
         icon: FiUsers,
-        label: "Lol",
-        url: "/payments/users",
-      },
-      {
-        key: "payments.lol2",
-        icon: FiCreditCard,
-        label: "Lol2",
-        url: "/payments/payments",
+        label: "Internal",
+        url: "/payments/internal",
       },
     ],
-  },
-  {
-    icon: FiCreditCard,
-    label: "Not payments",
-    url: "/not-payments",
-    key: "not-payments",
-    children: [
-      {
-        key: "not-payments.lol",
-        icon: FiUsers,
-        label: "Huh?",
-        url: "/not-payments/users",
-      },
-      {
-        key: "not-payments.lol2",
-        icon: FiCreditCard,
-        label: "Lol2",
-        url: "/not-payments/payments",
-      },
-    ],
-  },
-  {
-    key: "user",
-    url: "/user",
-    label: "User",
-    icon: FiUser,
   },
 ];
 
