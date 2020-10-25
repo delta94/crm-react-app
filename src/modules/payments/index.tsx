@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { FiCalendar, FiCheck, FiDownload } from "react-icons/fi";
 import { PaynetTransaction } from "MyTypes";
 import PaynetTable from "components/PaynetTable";
+import { sleep } from "helpers/sleep";
 
 const Payments = () => {
   const [loading, setLoading] = useState(false);
@@ -33,8 +34,9 @@ const Payments = () => {
     setConfirming(true);
     let res;
     try {
-      res = await axios.put(`/api/bss-paynet-set/${date}`);
-
+      // res = await axios.put(`/api/bss-paynet-set/${date}`);
+      res = { status: 200 };
+      sleep(800);
       if (res.status === 200) {
         toast({
           title: "Successfull confirmed",
@@ -66,12 +68,12 @@ const Payments = () => {
     }
     setLoading(true);
 
-    const res = await axios(
-      `/api/bss-paynet/${dayjs(date).format("YYYY-MM-DD").toString()}`
-    );
     // const res = await axios(
-    //   `https://5f7ebbb0094b670016b76686.mockapi.io/api/payments`
+    //   `/api/bss-paynet/${dayjs(date).format("YYYY-MM-DD").toString()}`
     // );
+    const res = await axios(
+      `https://5f7ebbb0094b670016b76686.mockapi.io/api/payments`
+    );
     setData(
       res.data?.transacts?.map((t, i) => ({ ...t, id: `${i}${t.docid}` })) || []
     );

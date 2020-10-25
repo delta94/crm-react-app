@@ -59,13 +59,19 @@ const Clients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       setLoading(true);
-      const res = await search(`${API_URL}/api/client`, {
-        method: "POST",
-        data: { [queryType]: query },
-        headers: {
-          Authorization: "Bearer " + user.token,
-        },
-      });
+      const res = await search(
+        `https://5f7ebbb0094b670016b76686.mockapi.io/api/clients`,
+        {
+          method: "GET",
+        }
+      );
+      // const res = await search(`${API_URL}/api/client`, {
+      //   method: "POST",
+      //   data: { [queryType]: query },
+      //   headers: {
+      //     Authorization: "Bearer " + user.token,
+      //   },
+      // });
 
       setLoading(false);
       setData(

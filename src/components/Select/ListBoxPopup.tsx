@@ -39,7 +39,7 @@ const ListBoxPopup = ({ state, ...otherProps }) => {
   // to allow screen reader users to dismiss the popup easily.
   return (
     <FocusScope restoreFocus>
-      <Box {...overlayProps} ref={overlayRef}>
+      <Box {...overlayProps} zIndex={99} ref={overlayRef}>
         <DismissButton onDismiss={() => state.close()} />
         <Box
           as="ul"
