@@ -14,6 +14,9 @@ import {
   InputRightElement,
   Stack,
   useToast,
+  Alert,
+  Icon,
+  AlertIcon,
 } from "@chakra-ui/core";
 import schema from "./schema";
 import Logo from "components/Logo";
@@ -23,6 +26,7 @@ import { isAuthenticatedSelector } from "store/auth/selectors";
 import { useHistory } from "react-router-dom";
 import { useMessageFormatter } from "@react-aria/i18n";
 import strings from "config/strings";
+import { FiInfo } from "react-icons/fi";
 
 const Login = () => {
   const toast = useToast();
@@ -75,8 +79,10 @@ const Login = () => {
     <Flex bg="blue.100" minHeight="100vh">
       <Flex justify="center" w="40%" maxW="40%" bg="white" height="100vh">
         <Flex mt={-8} justify="center" direction="column" width="400px">
-          <Logo mb={3} />
-          <Heading mb={16}>{formatMessage("pages.login.heading")}</Heading>
+          <Heading mb={6}>{formatMessage("pages.login.heading")}</Heading>
+          <Alert status="info" mb={16}>
+            <AlertIcon /> Use "admin" for username and password 😉
+          </Alert>
           <form onSubmit={onSubmit}>
             <Stack spacing={3}>
               <FormControl

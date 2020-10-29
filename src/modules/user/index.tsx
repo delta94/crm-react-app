@@ -9,7 +9,6 @@ const User = () => {
   const dispatch = useDispatch();
   const logout = () => {
     dispatch({ type: FLUSH });
-    delete axios.defaults.headers.common["Authorization"];
   };
   return (
     <Box>

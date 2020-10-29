@@ -16,15 +16,15 @@ const menus = [
         url: "/clients/payments",
         children: [
           {
-            key: "clients.payments.lol",
+            key: "clients.payments.inner",
             icon: FiUsers,
-            label: "Lol",
+            label: "Inner",
             url: "/clients/payments/yes",
           },
           {
-            key: "clients.payments.lol2",
+            key: "clients.payments.inner2",
             icon: FiCreditCard,
-            label: "Lol2",
+            label: "Inner 2",
             url: "/clients/payments/not",
           },
         ],

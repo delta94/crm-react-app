@@ -42,7 +42,7 @@ const ClientsTable: React.FC<Props> = (props) => {
         <Column key="fullname" allowsSorting={false}>
           {formatMessage("components.clientsTable.name")}
         </Column>
-        <Column key="login" width={120} allowsSorting={false}>
+        <Column key="login" width={140} allowsSorting={false}>
           {formatMessage("components.clientsTable.login")}
         </Column>
         <Column key="dateofbirth" width={140} isRowHeader allowsSorting={false}>

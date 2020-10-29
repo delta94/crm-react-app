@@ -71,9 +71,6 @@ const Search: React.FC<Props> = ({
         <Item aria-label="Passport number" key="passnumber">
           {formatMessage("components.clientSearch.passnumber")}
         </Item>
-        <Item aria-label="INN" key="inn">
-          {formatMessage("components.clientSearch.inn")}
-        </Item>
         <Item aria-label="Login" key="login">
           {formatMessage("components.clientSearch.login")}
         </Item>

@@ -24,7 +24,6 @@ export const App = () => (
       <Router>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <SetupAxios />
             <Switch>
               <Route path="/login">
                 <Login />

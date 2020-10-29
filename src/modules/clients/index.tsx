@@ -37,6 +37,7 @@ import { userSelector } from "store/auth/selectors";
 import { search } from "./search";
 import ComboButton from "components/ComboButton";
 import { Item } from "@react-stately/collections";
+import { sleep } from "helpers/sleep";
 
 const actionIcons = {
   sendLogin: FiMail,
@@ -59,45 +60,22 @@ const Clients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       setLoading(true);
-      const res = await search(
-        `https://5f7ebbb0094b670016b76686.mockapi.io/api/clients`,
-        {
-          method: "GET",
-        }
-      );
-      // const res = await search(`${API_URL}/api/client`, {
-      //   method: "POST",
-      //   data: { [queryType]: query },
-      //   headers: {
-      //     Authorization: "Bearer " + user.token,
-      //   },
-      // });
+      const res = await axios(`/8d656378-27e3-41f1-8f7a-f27e13f9328f`);
 
       setLoading(false);
-      setData(
-        res?.data?.clients?.filter(
-          (c) => c.extid !== null && c.mobilephone !== null
-        ) || []
-      );
+      setData(res?.data?.clients || []);
     };
 
-    if (query.length > 0) {
-      fetchClients();
-    } else {
-      setData([]);
-      setSelectedKeys(new Set());
-    }
-  }, [queryType, query, user.token]);
+    fetchClients();
+  }, []);
 
   const sendSMS = async () => {
     setSendingSMS(true);
     // @ts-ignore
     const client = data.find((c) => c.extid === Array.from(selectedKeys)[0]);
 
-    const res = await axios.post("/api/sms", {
-      recipient: client.mobilephone,
-      text: `Rekvizity dostupa v Internet-Bank. Vash login: ${client.login}. ? / ?Internet-bankga kirish uchun rekvizitlar. Sizning login: ${client.login}`,
-    });
+    const res = { status: 200 };
+    await sleep(700);
 
     if (res.status === 200) {
       toast({
@@ -203,6 +181,7 @@ const Clients = () => {
           onClick={actions[actionType]}
           isDisabled={!Array.from(selectedKeys).length}
           isLoading={sendingSMS}
+          aria-label="Select an action"
         >
           <Item
             aria-label={formatMessage("pages.clients.sendSMS")}

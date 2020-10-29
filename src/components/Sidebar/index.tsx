@@ -12,7 +12,7 @@ import {
   IconButton,
   Heading,
 } from "@chakra-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import {
   FiArrowLeft,
@@ -22,6 +22,9 @@ import {
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import menus from "./menus";
+import { useDispatch, useSelector } from "react-redux";
+import { isMenuOpenSelector } from "store/ui/selectors";
+import { toggleMenu } from "store/ui/slice";
 
 const MotionBox = motion.custom(Box);
 
@@ -108,9 +111,10 @@ const Sidebar = (props) => {
   // Call props here ...
   const flatMenu = flatten(menus);
 
-  const { isOpen, onToggle } = useDisclosure({ defaultIsOpen: true });
   const location = useLocation();
   const [selectedMenu, setSelectedMenu] = useState(flatMenu[0]);
+  const isOpen = useSelector(isMenuOpenSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const current = flatMenu.find((menu) => menu.url === location.pathname);
@@ -119,6 +123,10 @@ const Sidebar = (props) => {
       setSelectedMenu(parent);
     }
   }, []); // eslint-disable-line
+
+  if (!selectedMenu) {
+    return null;
+  }
 
   // children => menuItems
   const childIds = selectedMenu.children.map((c) => c.key);
@@ -148,7 +156,7 @@ const Sidebar = (props) => {
           borderRadius="50%"
           aria-label="Toggle submenu"
           bg="gray.200"
-          onClick={onToggle}
+          onClick={() => dispatch(toggleMenu())}
           zIndex={9}
           icon={
             <Icon
@@ -165,8 +173,13 @@ const Sidebar = (props) => {
 
       <Box
         key="animate-presence-child_2"
-        position="fixed" top={0} left={0} 
-        w="320px" height="100vh" d="flex">
+        position="fixed"
+        top={0}
+        left={0}
+        w="320px"
+        height="100vh"
+        d="flex"
+      >
         <Box
           borderRightWidth="1px"
           borderRightColor="gray.200"
@@ -188,7 +201,7 @@ const Sidebar = (props) => {
                     e.preventDefault();
                     setSelectedMenu(item);
                     if (!isOpen) {
-                      onToggle();
+                      dispatch(toggleMenu());
                     }
                   }}
                   key={key}

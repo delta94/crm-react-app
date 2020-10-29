@@ -4,8 +4,9 @@ import { getLanguage, getMenus } from "./thunks";
 
 const initialState = {
   language: "ru",
+  isMenuOpen: true,
   menus: [],
-}
+};
 
 const uiSlice = createSlice({
   name: "ui",
@@ -14,6 +15,10 @@ const uiSlice = createSlice({
     setLanguage(state, action: PayloadAction<Language>) {
       const { language } = action.payload;
       state.language = language;
+    },
+    toggleMenu(state, action: PayloadAction<boolean>) {
+      state.isMenuOpen =
+        action.payload !== undefined ? action.payload : !state.isMenuOpen;
     },
   },
   extraReducers: {
@@ -28,6 +33,6 @@ const uiSlice = createSlice({
   },
 });
 
-export const { setLanguage } = uiSlice.actions;
+export const { setLanguage, toggleMenu } = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -34,7 +34,6 @@ const Payments = () => {
     setConfirming(true);
     let res;
     try {
-      // res = await axios.put(`/api/bss-paynet-set/${date}`);
       res = { status: 200 };
       sleep(800);
       if (res.status === 200) {
@@ -68,12 +67,7 @@ const Payments = () => {
     }
     setLoading(true);
 
-    // const res = await axios(
-    //   `/api/bss-paynet/${dayjs(date).format("YYYY-MM-DD").toString()}`
-    // );
-    const res = await axios(
-      `https://5f7ebbb0094b670016b76686.mockapi.io/api/payments`
-    );
+    const res = await axios(`/cc4703fd-edb0-490e-b134-1a7498d15a3e`);
     setData(
       res.data?.transacts?.map((t, i) => ({ ...t, id: `${i}${t.docid}` })) || []
     );

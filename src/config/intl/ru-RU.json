@@ -12,9 +12,9 @@
   "components.clientsTable.name": "Имя",
   "components.clientsTable.login": "Логин",
   "components.clientsTable.dateofbirth": "День рождения",
-  "components.clientsTable.phonenumber": "Номер телефона",
+  "components.clientsTable.phonenumber": "Номеру телефона",
   "components.clientsTable.inn": "ИНН",
-  "components.clientsTable.passnumber": "Номер пасспорта",
+  "components.clientsTable.passnumber": "Номеру паспорта",
 
   "components.clientSearch.searchBy": "Искать по:",
   "components.clientSearch.name": "Имени",
