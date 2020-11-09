@@ -38,6 +38,7 @@ import { search } from "./search";
 import ComboButton from "components/ComboButton";
 import { Item } from "@react-stately/collections";
 import { sleep } from "helpers/sleep";
+import fakeData from "./data.json";
 
 const actionIcons = {
   sendLogin: FiMail,
@@ -221,7 +222,7 @@ const Clients = () => {
         )}
 
         {!!data.length && (
-          <ClientsTable onSelectionChange={setSelectedKeys} items={data} />
+          <ClientsTable onSelectionChange={setSelectedKeys} items={fakeData} />
         )}
       </Box>
     </Box>

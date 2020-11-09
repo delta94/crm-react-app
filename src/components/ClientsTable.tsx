@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Table, { Cell, Row, TableBody, Column, TableHeader } from "./Table";
 import { Selection } from "@react-types/shared";
 import PhoneNumber from "awesome-phonenumber";
@@ -24,6 +24,22 @@ interface Props {
 const ClientsTable: React.FC<Props> = (props) => {
   const tableRef = useRef(null);
   const formatMessage = useMessageFormatter(strings);
+  const [items, setItems] = useState(props.items);
+
+  const [sortDescriptor, setSortDescriptor] = useState(null);
+
+  const onSort = (sortDescriptor: any) => {
+    setItems((prevItems) =>
+      prevItems.slice().sort((a, b) => {
+        let cmp = a[sortDescriptor.column] < b[sortDescriptor.column] ? -1 : 1;
+        if (sortDescriptor.direction === "descending") {
+          cmp *= -1;
+        }
+        return cmp;
+      })
+    );
+    setSortDescriptor(sortDescriptor);
+  };
 
   return (
     <Table
@@ -33,32 +49,32 @@ const ClientsTable: React.FC<Props> = (props) => {
       height={500}
       overflowMode="wrap"
       density="spacious"
-      // sortDescriptor={list.sortDescriptor}
-      // onSortChange={list.sort}
+      sortDescriptor={sortDescriptor}
+      onSortChange={onSort}
       ref={tableRef}
       onSelectionChange={props.onSelectionChange}
     >
       <TableHeader>
-        <Column key="fullname" allowsSorting={false}>
+        <Column key="fullname" allowsSorting={true}>
           {formatMessage("components.clientsTable.name")}
         </Column>
-        <Column key="login" width={140} allowsSorting={false}>
+        <Column key="login" width={140} allowsSorting={true}>
           {formatMessage("components.clientsTable.login")}
         </Column>
-        <Column key="dateofbirth" width={140} isRowHeader allowsSorting={false}>
+        <Column key="dateofbirth" width={140} isRowHeader allowsSorting={true}>
           {formatMessage("components.clientsTable.dateofbirth")}
         </Column>
-        <Column key="mobilephone" width={140} allowsSorting={false}>
+        <Column key="mobilephone" width={140} allowsSorting={true}>
           {formatMessage("components.clientsTable.phonenumber")}
         </Column>
-        <Column key="inn" width={120} allowsSorting={false}>
+        <Column key="inn" width={120} allowsSorting={true}>
           {formatMessage("components.clientsTable.inn")}
         </Column>
-        <Column key="passnumber" width={150} allowsSorting={false}>
+        <Column key="passnumber" width={150} allowsSorting={true}>
           {formatMessage("components.clientsTable.passnumber")}
         </Column>
       </TableHeader>
-      <TableBody items={props.items}>
+      <TableBody items={items}>
         {(item) => (
           <Row key={item.extid}>
             {(key) => (

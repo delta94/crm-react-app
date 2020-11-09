@@ -248,6 +248,7 @@ const Sidebar = (props) => {
           bg="gray.50"
           pos="relative"
           whiteSpace="nowrap"
+          aria-hidden={!isOpen}
           animate={{
             width: isOpen ? 260 : 0,
             transition: { duration: 0.21, ease: "easeInOut" },

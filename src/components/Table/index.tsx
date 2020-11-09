@@ -27,6 +27,8 @@ import TableColumnHeader from "./TableColumnHeader";
 import TableVirtualizer from "./TableVirtualizer";
 import { Box, Spinner } from "@chakra-ui/core";
 
+import { VariableSizeList as List } from "react-window";
+
 const DEFAULT_HEADER_HEIGHT = {
   medium: 38,
   large: 40,
@@ -109,6 +111,7 @@ function Table<T extends object>(
     },
     state
   );
+  // console.log(state.collection);
 
   // This overrides collection view's renderWrapper to support DOM heirarchy.
   type View = ReusableView<TableNode<T>, unknown>;
@@ -234,6 +237,27 @@ function Table<T extends object>(
     }
   };
 
+  const renderRow = ({ index, style }) => {
+    console.log(
+      state.collection.getItem(state.collection.body.props.items[index].extid)
+    );
+    const item = state.collection.getItem(
+      state.collection.body.props.items[index].extid
+    );
+
+    return (
+      <TableRow key={index} item={item} style={style}>
+        <TableCell
+          cell={{
+            props: { align: "left" },
+            // @ts-ignore
+            rendered: <span>{item.value.fullname}</span>,
+          }}
+        />
+      </TableRow>
+    );
+  };
+
   return (
     <Box
       borderRadius="8px"
@@ -252,6 +276,15 @@ function Table<T extends object>(
       }}
     >
       <TableContext.Provider value={state}>
+        {/* <List
+          height={600}
+          itemCount={state.collection.size}
+          itemSize={() => 50}
+          // width={1000}
+          onFocus={() => console.log("focused")}
+        >
+          {renderRow}
+        </List> */}
         <TableVirtualizer
           {...gridProps}
           style={{
